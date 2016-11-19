@@ -1,10 +1,10 @@
-package Model;
+package model;
 
 import java.awt.Color;
 
-import static Model.IConfig.COULEUR_EAU;
-import static Model.IConfig.COULEUR_FORET;
-import static Model.IConfig.COULEUR_ROCHER;
+import static model.IConfig.COULEUR_EAU;
+import static model.IConfig.COULEUR_FORET;
+import static model.IConfig.COULEUR_ROCHER;
 
 public class Obstacle extends Element {
 	public enum TypeObstacle {

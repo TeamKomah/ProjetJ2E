@@ -1,6 +1,6 @@
-package View;
+package view;
 
-import Model.IConfig;
+import model.IConfig;
 
 public class PositionView implements IConfig {
 	private int x, y;

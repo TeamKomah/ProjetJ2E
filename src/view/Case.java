@@ -1,8 +1,8 @@
-package View;
-
-import Model.Position;
+package view;
 
 import javax.swing.*;
+
+import model.Position;
 
 /**
  * Created by root on 11/15/16.

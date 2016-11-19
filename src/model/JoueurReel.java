@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class JoueurReel extends AbstractJoueur{
 
@@ -9,8 +9,13 @@ public class JoueurReel extends AbstractJoueur{
 
 	@Override
 	public void jouerTour() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("A vous de jouer");
+		while(this.partie.getJoueurTourCourant()==this){
+			try {
+			       Thread.sleep(1);
+			    } catch(InterruptedException e) {
+			    }
+		}		
 	}
 
 	@Override
@@ -18,5 +23,7 @@ public class JoueurReel extends AbstractJoueur{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 
 }

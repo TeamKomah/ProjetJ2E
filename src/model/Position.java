@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class Position implements IConfig {
 	private int x, y;

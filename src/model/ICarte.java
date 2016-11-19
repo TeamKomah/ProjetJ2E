@@ -1,8 +1,8 @@
-package Model;
-
-import View.PanneauJeu;
+package model;
 
 import java.awt.Graphics;
+
+import view.PanneauJeu;
 public interface ICarte {
 	Element getElement(Position pos);
 	Position trouvePositionVide(); // Trouve al�atoirement une position vide sur la carte

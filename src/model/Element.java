@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * Created by root on 11/15/16.
