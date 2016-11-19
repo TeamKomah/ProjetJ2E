@@ -5,7 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FenetreJeu extends JFrame{
-
+	public final static String TITRE_FENETRE = "Wargame";
+	public final static int LARGEUR_FENETRE = 1150;
+	public final static int HAUTEUR_FENETRE = 750;
     public final static int NB_LIGNES = 15;
     public final static int NB_COLONNES = 25;
 
@@ -15,7 +17,8 @@ public class FenetreJeu extends JFrame{
     }
 
     public void initFenetreJeu(){
-        this.setSize(new Dimension(1000,750));
+    	this.setTitle(TITRE_FENETRE);
+        this.setSize(new Dimension(LARGEUR_FENETRE,HAUTEUR_FENETRE));
         this.setLocationRelativeTo(null);
         this.getContentPane().setLayout(new GridLayout(NB_LIGNES,NB_COLONNES));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,7 +1,5 @@
 package Model;
 
-/**
- * Created by root on 11/15/16.
- */
-public class Heros {
+
+public class Heros extends Soldat{
 }
