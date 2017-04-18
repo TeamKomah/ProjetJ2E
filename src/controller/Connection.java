@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import javax.servlet.http.Part;
 
 import model.ConnectionBD;
 import model.Utilisateur;
@@ -26,17 +26,20 @@ public class Connection extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		try {
 			Utilisateur user = new Utilisateur();
 			user.setId((int)session.getAttribute("id"));
 			request.setAttribute("amis", user.listAmis());
-			int doc = Integer.parseInt(request.getParameter("doc"));
-			if(doc==1){
+			
+			if(request.getParameter("doc") != null){
 				request.setAttribute("mesdocs",user.mesDocuments(user));
 			}
+			 
+			
 		} catch (ClassNotFoundException | SQLException e) {
 			
 			e.printStackTrace();
@@ -50,13 +53,14 @@ public class Connection extends HttpServlet {
 		
 		String pseudo = request.getParameter("pseudo");
 		String mdp = request.getParameter("mdp");
+		
 		try {
 			
-			//ConnectionBD connect= ConnectionBD.getConnectionBD();
 			Utilisateur user = new Utilisateur();
 			HttpSession session = request.getSession();
 			
 			if(user.identifier(pseudo, mdp)){
+				
 				session.setAttribute("nom", user.getNom());
 				session.setAttribute("prenom", user.getPrenom());
 				session.setAttribute("id", user.getId());
@@ -65,18 +69,20 @@ public class Connection extends HttpServlet {
 				this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
 			}
 			else{
-				System.out.println("Erreur de connection à la Base de Donnes");
+				
+				System.out.println("identifiant ou mot de passe incorrect");
+				this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 			}
 		} catch (SQLException e) {
-			
+			System.out.println("Erreur de connection à la Base de Donnes");
+			e.printStackTrace();
 			this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.out.println("un probleme est survenu lors de la connection");
+			System.out.println("ressayer la connection");
 			e.printStackTrace();
+			this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 		}
 		
-		
-		}
-
+	}
 }

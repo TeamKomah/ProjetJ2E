@@ -15,9 +15,9 @@
 ${nom} ${prenom}
 Bienvenue sur ton site prefere
 <ul>
-	<li><a href="#"> + ajoutez un Documents</a></li>
+	<li><a href="Connection?aj=1"> + ajoutez un Document</a></li>
 	<li><a href="Connection?doc=1">Mes Documents</a></li>
-	<li><a href="#">Documents partagés avec moi</a></li>
+	<li><a href="Connection?docp=1">Documents partagés avec moi</a></li>
 </ul>
 <br>
 
@@ -35,5 +35,22 @@ Bienvenue sur ton site prefere
 		</c:forEach>
 	</ul>
 </c:if>
+
+<c:if test="${param.aj != null }">
+	${param.aj}
+	<h5>Ajoutez un nouveau dicument</h5>
+	<form action="DocumentS" method="post" enctype="multipart/form-data">
+		<%request.setAttribute("form1", 1); %>
+		<input type="text" name="descrip" id="descrip">
+		<input type="file" name="fichier" id="fichier"/>
+		<input type="submit" value="Envoyer">
+	</form>
+
+</c:if>
+
+
+
+
+
 </body>
 </html>

@@ -15,6 +15,7 @@ public class Document {
 	public String visibilite;
 	private ArrayList<Document> historyDoc = new ArrayList<>();
 	public File readme;
+	public static int  nbDoc = 0;
 	ConnectionBD connect;
 	
 	public Document() throws ClassNotFoundException, SQLException{
@@ -34,6 +35,7 @@ public class Document {
 		this.nom = nom;
 		this.auteur = auteur;
 		this.visibilite = visibilite;
+		nbDoc++;
 	}
 	/**
 	 * Ajout d'un nouveau contributeur.
