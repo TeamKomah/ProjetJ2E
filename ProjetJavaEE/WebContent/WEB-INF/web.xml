@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <servlet>
+    <servlet-name>Index</servlet-name>
+    <servlet-class>controller.Index</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Index</servlet-name>
+    <url-pattern>/Index</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Connection</servlet-name>
+    <servlet-class>controller.Connection</servlet-class>
+    <init-param>
+      <param-name>n</param-name>
+      <param-value>1</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Connection</servlet-name>
+    <url-pattern>/Connection</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>DocumentS</servlet-name>
+    <servlet-class>controller.DocumentS</servlet-class>
+    <init-param>
+        <param-name>chemin</param-name> 
+        <param-value>/stockjee/</param-value> 
+    </init-param>
+    <multipart-config>
+      <location>c:/stockjee</location>
+      <max-file-size>10485760</max-file-size>
+      <max-request-size>52428800</max-request-size>
+      <file-size-threshold>1048576</file-size-threshold>
+    </multipart-config>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DocumentS</servlet-name>
+    <url-pattern>/DocumentS</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
