@@ -20,14 +20,12 @@
     <servlet-name>Connection</servlet-name>
     <url-pattern>/Connection</url-pattern>
   </servlet-mapping>
-  
-  
   <servlet>
     <servlet-name>DocumentS</servlet-name>
     <servlet-class>controller.DocumentS</servlet-class>
     <init-param>
-        <param-name>chemin</param-name> 
-        <param-value>/stockjee/</param-value> 
+      <param-name>chemin</param-name>
+      <param-value>/stockjee/</param-value>
     </init-param>
     <multipart-config>
       <location>c:/stockjee</location>
@@ -40,5 +38,4 @@
     <servlet-name>DocumentS</servlet-name>
     <url-pattern>/DocumentS</url-pattern>
   </servlet-mapping>
-  
 </web-app>

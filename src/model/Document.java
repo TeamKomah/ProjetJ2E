@@ -12,7 +12,7 @@ public class Document {
 	public Utilisateur auteur;
 	public Date dateC;
 	private ArrayList <Utilisateur> listContributeur = new ArrayList<>();
-	public String visibilite;
+	public int visibilite;
 	private ArrayList<Document> historyDoc = new ArrayList<>();
 	public File readme;
 	public static int  nbDoc = 0;
@@ -28,9 +28,11 @@ public class Document {
 	 * @param nom
 	 * @param auteur
 	 * @param visibilite
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public Document(int id, String nom, Utilisateur auteur, String visibilite) {
-		super();
+	public Document(int id, String nom, Utilisateur auteur, int visibilite) throws ClassNotFoundException, SQLException {
+		this();
 		this.id = id;
 		this.nom = nom;
 		this.auteur = auteur;
@@ -69,6 +71,11 @@ public class Document {
 		}	
 	}
 	
+	public int ajouterDoc() throws SQLException{
+		 return connect.QueryUpdate("INSERT INTO document(Document_Name,Editeur_ID,Type_ID) "
+				+ "VALUES('"+this.nom+"','"+this.auteur.getId()+"','"+this.visibilite+"')");
+	}
+	
 	/**
 	 * Ajout d'une nouvelle version du document.
 	 * @param doc
@@ -84,8 +91,9 @@ public class Document {
 	/**
 	 * recpuere l'historique du document
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-	public void listHistory() throws SQLException{
+	public void listHistory() throws SQLException, ClassNotFoundException{
 		ResultSet res = connect.Query("SELECT * FROM document"
 				+ "WHERE Document_ID IN"
 				+ "(SELECT Vdocument_ID FROM versiondoc"
@@ -105,10 +113,15 @@ public class Document {
 			historyDoc.add(new Document(res.getInt(1),
 					res.getString(2),
 					utili,
-					res.getString(4)));
+					res.getInt(4)));
 		}
 	}
 
+	public String recupererDoc() throws SQLException{
+		ResultSet res = connect.Query("SELECT Document_Name FROM document WHERE Document_ID='"+this.id+"'");
+		res.next();
+		return res.getString("Document_Name");
+	}
 	public int getId() {
 		return id;
 	}
@@ -141,11 +154,11 @@ public class Document {
 		this.dateC = dateC;
 	}
 
-	public String getVisibilite() {
+	public int getVisibilite() {
 		return visibilite;
 	}
 
-	public void setVisibilite(String visibilite) {
+	public void setVisibilite(int visibilite) {
 		this.visibilite = visibilite;
 	}
 

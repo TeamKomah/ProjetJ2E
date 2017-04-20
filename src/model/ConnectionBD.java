@@ -3,7 +3,7 @@ import java.sql.*;
 public class ConnectionBD {
 	private static ConnectionBD BD;
 	private java.sql.Connection connect;
-	private Statement St;
+	Statement St;
 	private ConnectionBD() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd_projetjee", "root", "");

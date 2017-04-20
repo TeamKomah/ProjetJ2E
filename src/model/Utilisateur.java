@@ -134,20 +134,22 @@ public class Utilisateur {
 	/**
 	 * recupere les documents creés par utilisateur.
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-	public ArrayList<Document> mesDocuments(Utilisateur utili) throws SQLException{
+	public ArrayList<Document> mesDocuments(Utilisateur utili) throws SQLException, ClassNotFoundException{
 		ResultSet res = connect.Query("SELECT * FROM document WHERE document.Editeur_ID='"+this.id+"'");
 		//Utilisateur utili = new Utilisateur( this.id,this.nom,this.prenom,this.dateN,this.pseudo,this.mdp,this.email);
 		while(res.next()){
-		mesDoc.add(new Document(res.getInt(1),res.getString(2),utili,res.getString(4)));
+		mesDoc.add(new Document(res.getInt(1),res.getString(2),utili,res.getInt(4)));
 		}
 		return mesDoc;
 	}
 	/**
 	 * recupere la liste des docs partager avec cet utilisation.
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-	public void listDocPartager() throws SQLException{
+	public void listDocPartager() throws SQLException, ClassNotFoundException{
 		ResultSet res = connect.Query("SELECT * FROM document"
 				+ "WHERE document.Editeur_ID IN"
 				+ "(SELECT Document_ID FROM accesdoc"
@@ -167,7 +169,7 @@ public class Utilisateur {
 			listDocPartager.add(new Document(res.getInt(1),
 					res.getString(2),
 					utili,
-					res.getString(4)
+					res.getInt(4)
 					));
 		}
 	}
