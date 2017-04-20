@@ -40,7 +40,7 @@ Bienvenue sur ton site prefere
 	<ul class="doc">
 		<h2>Mes Documents</h2>
 		<c:forEach var="docs" items="${ mesdocs }">
-			<li><a href="DocumentS?iddoc=${docs.id }"> ${ docs.nom }</a>
+			<li><a href="TelechargementS?iddoc=${docs.id }"> ${ docs.nom }</a>
 		</c:forEach>
 	</ul>
 </c:if>

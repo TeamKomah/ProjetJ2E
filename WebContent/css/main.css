@@ -3,9 +3,8 @@
 
 body {
     background-color: #4ab5b5;
-    width: 500px;
-    height: 800px;
-   	
+   	width:1328px;
+	margin:0 auto;
    
 }
 .box{
@@ -109,7 +108,7 @@ img {
 	background-color: #fff2f2;
 	}
 	
-.clear {
+/*.clear {
 	clear:both;
 	}
 .inline-block{
@@ -129,13 +128,10 @@ html {
 	background-color:#f5f5f5;
 	}
 	
-body {
-	width:1328px;
-	margin:0 auto;
-	}
+*/
 
 /* Barre de menu*/
-
+/*
 #menu1 {
 	position:fixed;
 	margin:0 auto;
@@ -161,10 +157,10 @@ body {
 	text-align:center;
 	width:1328px;*/
 	}
-	
+*//*	
 #menu1 ul li{ 
 	display: inline-block;
-    list-style: none; /* pour enlever les puces sur IE7 */
+    list-style: none;  pour enlever les puces sur IE7 **
     padding:0 30px;
 	}
 	
@@ -214,7 +210,7 @@ body {
 	width: 31px;
 	/*max-width:50%;
 	max-height:50%;*/
-	margin: -10px 0 0 -4px;
+	/*margin: -10px 0 0 -4px;
 	border-radius: 0 15px 15px 0;
 	background: url("../images/bouton_recherche2.gif") center center no-repeat;
 	position:absolute;
@@ -228,9 +224,9 @@ body {
 	}
 input[type="button" i], input[type="submit" i], input[type="reset" i], input[type="file" i]::-webkit-file-upload-button, button {
     padding: 0;
-}
+}*/
 	/*Gestion block inscription et connexion du menu*/
-
+/*
 .hidden{
 	display: none;
 	position: fixed;
@@ -287,11 +283,11 @@ form table tr{
 	font-weight:800;
 	color:#3188b5;
 	margin: 10px 0 12px 0;
-	text-shadow:2px 2px 2px #4ecdb4;
+	text-shadow:2px 2px 2px #4ecdb4;/*
  			   /*-1px -1px 1px #4ecdb4,
  			   1px -1px 1px #4ecdb4,
  			   -1px 1px 1px #4ecdb4;*/
-}
+/*}
 .hidden ul {
 	margin:10px 0 0 0;
 }
@@ -313,16 +309,16 @@ form table tr{
     border-radius: 5px;
 
 }
-.input1::placeholder { /* Chrome/Opera/Safari */
+.input1::placeholder */{ /* Chrome/Opera/Safari */
+ /* opacity:0.8;
+}
+.input1::-moz-placeholder */{ /* Firefox 19+ */
+/*  opacity:0.8;
+}
+.input1:-ms-input-placeholder { 
   opacity:0.8;
 }
-.input1::-moz-placeholder { /* Firefox 19+ */
-  opacity:0.8;
-}
-.input1:-ms-input-placeholder { /* IE 10+ */
-  opacity:0.8;
-}
-.input1:-moz-placeholder { /* Firefox 18- */
+.input1:-moz-placeholder { 
   opacity:0.8;
 }
 
@@ -336,13 +332,13 @@ form table tr{
     color:#3188b5;
     border-radius: 5px;
 
-}
+}*/
 /*fin de gestion de block inscription et connexion*/
 
 
 /* Accueil */
 
-#contenu {
+/*#contenu {
 	padding: 65px 0 0 0;
 }
 	
@@ -393,10 +389,10 @@ form table tr{
 	color : #4ecdb4;
 	text-shadow: 1.5px 1.5px #3188b5;
 	text-align: justify;
-}
+}*/
 
 /* Bibliothèque */
-
+/*
 #domaine{
 	min-height: 100%;
 	width: 150px;
@@ -421,7 +417,7 @@ form table tr{
 		#4ecdb4 -0.5px -0.5px,
 		#4ecdb4 0.5px -0.5px;
 }*/
-.genre li{
+/*.genre li{
 	height:100%;
 	margin:5px 0 0 10px;
 }
@@ -440,10 +436,10 @@ form table tr{
 		#4ecdb4 -0.5px 0.5px,
 		#4ecdb4 -0.5px -0.5px,
 		#4ecdb4 0.5px -0.5px;  
-}
+}*/
 /*#domaine li a:last-child{
 	margin:0 0 5px 0;
-}*/
+}*//*
 .genre{
 	display: none;
 }
@@ -497,8 +493,9 @@ form table tr{
 	width: 600px;
 	margin-left: 50px;
 }
-
+*/
 /*  Recherche */
+/*
 #livre_recherche {
 	width:600px;
 	border-left: 3px solid #4ecdb4;
@@ -527,8 +524,9 @@ form table tr{
 	height:100%;
 	margin:0 auto;
 }
-
+*/
 /* Document */
+/*
 #docu div{
 	display: inline-block;
 }
@@ -574,8 +572,9 @@ form table tr{
 	  font-weight:bold;
 	  margin-top:20px;
 	}
-
+*/
 /* Mentions légales*/
+/*
 #mention {
 	margin:20px auto ;
 	width:60%;
@@ -623,8 +622,9 @@ form table tr{
 #mention p {
 	text-align:justify;
 	color:#333333;
-}
+}*/
 /*gestion du profil*/
+/*
 #centre {
 	padding: 0 20px 0 0;
 	border-right: 3px solid #4ecdb4; 
@@ -642,12 +642,12 @@ form table tr{
 }
 .titre_actu{
 	font-size: 1.5em;
-}
+}*/
 /*gestion du profil*/
 
 /* ACTUALITE */
 
-	
+/*	
 		
 	@font-face {
   font-family: 'icons';
@@ -659,7 +659,7 @@ form table tr{
  
 abbr,article,aside,audio,canvas,datalist,details,figure,dialog
 		,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video
-		{display : block;} 
+		{display : block;} */
 /* @media only screen and (max-width:800px) {
   */
    /*----------------------------------------------------*/
@@ -677,8 +677,8 @@ abbr,article,aside,audio,canvas,datalist,details,figure,dialog
 	}*/
 	
 	/*--------------------------------------------------*/
-	#conteneur {
-	/* width : auto; */
+	/*#conteneur {
+	
 	margin : 0 auto;
 	 
 	 } 
@@ -693,28 +693,29 @@ abbr,article,aside,audio,canvas,datalist,details,figure,dialog
 	.all-type{ 
 	height : auto;
 	padding : 13px 0px 0 20px; 	
-	border-radius: 5px;
+	border-radius: 5px;*/
 	/* -webkit-border-radius: 10px;
 	-o-border-radius: 10px;
 	-moz-border-radius: 10px; */
 	
-	box-shadow : 0px 5px 10px 5px  #3188b5;
+	/*box-shadow : 0px 5px 10px 5px  #3188b5;
 	margin-top :26%;
 	 
-    background: -webkit-linear-gradient(white ,#ddd); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(white ,#ddd); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(white ,#ddd); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(rgb(255,255,255) ,rgb(221,221,221)); /* Standard syntax */
+    background: -webkit-linear-gradient(white ,#ddd); *//* For Safari 5.1 to 6.0 */
+   /* background: -o-linear-gradient(white ,#ddd); 
+    background: -moz-linear-gradient(white ,#ddd); 
+    background: linear-gradient(rgb(255,255,255) ,rgb(221,221,221)); 
     background: rgba(255,255,255);
 	    width: 65%;
     margin: 0 auto;
 	    margin-top: 7%;
 	} 
-	.annule{clear : both;}
+	.annule{clear : both;}*/
 	/*-------------------------------------------*/
 	 
  
 /*---------------------------------------------------------------*/
+/*
 hr { width : 400px ;  display: inline-block; vertical-align: middle;   margin-left: 20px;}
 #animu{border : solid 1x black;
  width : 650px ; height : auto; 
@@ -736,10 +737,10 @@ hr { width : 400px ;  display: inline-block; vertical-align: middle;   margin-le
 	}
 	
 .span{cursor : pointer;}
-#type-animu { border : solid 1x black; }  
+#type-animu { border : solid 1x black; }  */
 
 /*-----------------------------------------------------------------*/
-   
+  /* 
 .alltype {
 	position : fixed;
 	top :0;
@@ -759,9 +760,9 @@ height:150px;
 {
 
 	    background-color: #f5f5f5;
-}
+}*/
 /*page inscription*/
-#msg{
+/*#msg{
 	width: 400px;
 	margin: auto;
 	padding: 20px;
@@ -774,7 +775,7 @@ height:150px;
 	font-size: 1.3em;
 	padding-bottom: 20px;
 }
-/* Footer */
+
 
 #footer {
 	margin:0 auto;
@@ -795,7 +796,7 @@ height:150px;
 	
 #footer ul li {
 	display: inline-block;
-    list-style: none; /* pour enlever les puces sur IE7 */
+    list-style: none; pour enlever les puces sur IE7 
     padding:0 50px;
 	
 	}
@@ -817,4 +818,4 @@ height:150px;
 		#4ecdb4 -0.5px 0.5px,
 		#4ecdb4 -0.5px -0.5px,
 		#4ecdb4 0.5px -0.5px;  
-}
+}*/

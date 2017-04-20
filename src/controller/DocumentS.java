@@ -87,54 +87,7 @@ public class DocumentS extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 			
-		HttpSession session = request.getSession();
-		int id = (int) session.getAttribute("id");
-		String nom = (String) session.getAttribute("nom");
-		String prenom = (String) session.getAttribute("prenom");
-		System.out.println("passage if"+request.getParameter("iddoc"));
-		Document doc1;
-		
-		
-		
-		BufferedInputStream entree =null;
-		BufferedOutputStream sortie = null;
-		try {
-			doc1 = new Document();
-			
-			String chemin = this.getServletConfig().getInitParameter("chemin");
-			
-			if(request.getParameter("iddoc") != null){
-				 int idd = Integer.parseInt(request.getParameter("iddoc"));
-				 doc1.setId(idd);
-				 String nomdoc = doc1.recupererDoc();
-				 System.out.println(nomdoc);
-				 File fichierdoc = new File(chemin,nomdoc);
-				 
-				 response.reset();
-					response.setBufferSize( DEFAULT_BUFFER_SIZE );
-					//response.setContentType( type );
-					response.setHeader( "Content-Length", String.valueOf( fichierdoc.length() ) );
-					response.setHeader( "Content-Disposition", "attachment; filename=\"" + fichierdoc.getName() + "\"" );
-				 
-				 entree = new BufferedInputStream(new FileInputStream(fichierdoc),TAILLE_TAMPON);
-				 sortie = new BufferedOutputStream(response.getOutputStream(),TAILLE_TAMPON);
-				 byte[] tampon1 = new byte[TAILLE_TAMPON];
-				 int longueur;
-				 while((longueur= entree.read(tampon1))> 0){
-					 sortie.write(tampon1, 0, longueur);
-				 }
-			 }
-		 
-		} catch (ClassNotFoundException e1) {
-			sortie.close();
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			entree.close();
-			e1.printStackTrace();
-		}
-		this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
-		 
-		
+
 	}
 
 	/**
