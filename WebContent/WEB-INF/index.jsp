@@ -15,7 +15,7 @@
 <div class="right box">
 <table>
 <div id="formConnect">
-	<form action="Connection" method="post">
+	<form action="Connection" method="post" class="form">
 		<tr>
 		<td> Pseudo: </td>
 		<td><input type=text name="pseudo" placeholder="pseudo..." id="pseudo"/></td>
@@ -31,7 +31,7 @@
 <h4>Si vous n'avez pas de compte inscrivez-vous.</h4>
 <table>
 <div id="formInscrip">
-	<form action="Inscription" method="post">
+	<form action="Inscription" method="post" >
 		<tr>
 		<td>Prenom: </td>
 		<td><input type="text" name="prenom" id="prenom" placeholder="nom"/></td>

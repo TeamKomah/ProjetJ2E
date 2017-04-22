@@ -4,7 +4,7 @@
 body {
     background-color: #4ab5b5;
    	width:1328px;
-	margin:0 auto;
+	
    
 }
 .box{
@@ -17,26 +17,38 @@ body {
 }
 .left {
 	float:left;
-	}
-h1 {
-    letter-spacing: 2px;
-    font-size: 450%;
-}	
-.tete{
+	}	
+.tete h1{
 	width: 100%;
-	height: 60px;
+	height: 50px;
 	background-color: orange;
 	color: white;
-	
+	letter-spacing: 2px;
+	font-size: 20px;
+	padding-left: 10px;
+	padding-top: 20px;
+	margin-top: -10px;
+	margin-left: -10px;
+
+
+   
 }
 .menu{
 	width: 25%;
 	height: 740px;
 	background-color: #6a6a6a;
 	text-align: center;
-	border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-bottom: 1px solid white;
+	float: left;
+	margin-left: -10px;
+   
+}
+.block-col2{
+	width: 70%;
+	height: 740px;
+	padding-left: 30px;
+}
+.menu ul{
+	padding-left: 0px;
 }
 .milieu{
 	width: 75%;
@@ -45,7 +57,7 @@ h1 {
 li{
 	width: 100%;
 	height: 30px;
-	background-color: #c7c7c7;
+	background-color: #8a8993;;
 	text-align: center;
 	border-top: 1px solid white;
     border-left: 1px solid white;
@@ -53,21 +65,17 @@ li{
     padding-left: 0px;
     overflow: hidden;
 }
-.block div{
+.block > div{
 	display: inline-block;
 }
-.block-col2{
-	width: 70%;
-	padding-top: 0px;
-	padding-left: 30px;
-}
+
 .doc li{
 	width: 100%;
 	height: 40px;
 }
 li:hover {background-color: #F2462E;}
 /*li:active {background-color: #5F879D;}*/
-input[type=password]{
+#formInscrip form input[type=password]{
 	background-color: wite;
     
     padding: 5px;
@@ -81,7 +89,7 @@ input[type=password]{
 	font-size:1.1em;
 	text-indent: 10px;
 }
-input[type=text]{
+.formInp > input[type=text]{
     background-color: wite;
     
     padding: 5px;

@@ -2,11 +2,14 @@ package controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -86,8 +89,39 @@ public class DocumentS extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-			
-
+		
+		try {
+				Document doc1 = new Document();
+		
+				BufferedReader fluxEntree;
+				if(request.getParameter("iddoc") != null){
+					String chemin = this.getServletConfig().getInitParameter("chemin");
+					 int idd = Integer.parseInt(request.getParameter("iddoc"));
+					 doc1.setId(idd);
+					 String nomdoc;
+					
+					 nomdoc = doc1.recupererDoc();
+					
+					 fluxEntree = new BufferedReader(new FileReader(chemin+nomdoc));
+					 /* Lecture d'une ligne */
+					 String ligneLue = fluxEntree.readLine();
+					 ArrayList<String> listContent= new ArrayList<>();
+					while(ligneLue!=null){
+						System.out.println(ligneLue);
+						listContent.add(ligneLue);
+						ligneLue = fluxEntree.readLine();
+					}
+					request.setAttribute("ContentFichier", listContent);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
 	}
 
 	/**
