@@ -36,6 +36,7 @@ public class Connection extends HttpServlet {
 			request.setAttribute("amis", user.listAmis());
 			
 			if(request.getParameter("doc") != null){
+				
 				request.setAttribute("mesdocs",user.mesDocuments(user));
 			}
 			 

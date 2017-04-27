@@ -138,9 +138,8 @@ public class Utilisateur {
 	 */
 	public ArrayList<Document> mesDocuments(Utilisateur utili) throws SQLException, ClassNotFoundException{
 		ResultSet res = connect.Query("SELECT * FROM document WHERE document.Editeur_ID='"+this.id+"'");
-		//Utilisateur utili = new Utilisateur( this.id,this.nom,this.prenom,this.dateN,this.pseudo,this.mdp,this.email);
 		while(res.next()){
-		mesDoc.add(new Document(res.getInt(1),res.getString(2),utili,res.getInt(4)));
+		mesDoc.add(new Document(res.getInt(1),res.getString(2),utili,res.getInt(4),res.getDate(5)));
 		}
 		return mesDoc;
 	}
@@ -169,7 +168,8 @@ public class Utilisateur {
 			listDocPartager.add(new Document(res.getInt(1),
 					res.getString(2),
 					utili,
-					res.getInt(4)
+					res.getInt(4),
+					res.getDate(5)
 					));
 		}
 	}

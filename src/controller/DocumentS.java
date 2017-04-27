@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -89,10 +91,15 @@ public class DocumentS extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		if(request.getParameter("iddoc")!=null && request.getParameter("modif")!=null){
+			HttpSession session= request.getSession();
+			//request.setAttribute("amis", user.listAmis());
+			session.setAttribute("docModif", request.getParameter("iddoc"));
+		}
 		
 		try {
 				Document doc1 = new Document();
-		
+
 				BufferedReader fluxEntree;
 				if(request.getParameter("iddoc") != null){
 					String chemin = this.getServletConfig().getInitParameter("chemin");
@@ -113,6 +120,7 @@ public class DocumentS extends HttpServlet {
 					}
 					request.setAttribute("ContentFichier", listContent);
 				}
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -133,29 +141,36 @@ public class DocumentS extends HttpServlet {
 			int id = (int) session.getAttribute("id");
 			String nom = (String) session.getAttribute("nom");
 			String prenom = (String) session.getAttribute("prenom");
+			String chemin = this.getServletConfig().getInitParameter("chemin");
 			
 			Document doc1;
+			Utilisateur user;
 			try {
 				doc1 = new Document();
+				user = new Utilisateur();
 			
-			
-				String chemin = this.getServletConfig().getInitParameter("chemin");
-				Part part = request.getPart( "fichier" );
-				String nomFichier = getNomFichier( part );
+			//	if(request.getParameter( "fichier" )!=null){
+					System.out.println("fichier detecte");
+					Part part = request.getPart( "fichier" );
+					String nomFichier = getNomFichier( part );
+					
+					if ( nomFichier != null && !nomFichier.isEmpty() ) {
+					        String nomChamp = part.getName();
+					        nomFichier = nomFichier.substring( nomFichier.lastIndexOf( '/' ) + 1 ).substring( nomFichier.lastIndexOf( '\\' ) + 1 );
+					        ecrireFichier( part, nomFichier, chemin );
+					     
+								user.setId(id);
+								user.setNom(nom);
+								user.setPrenom(prenom);
+								 Document doc = new Document(doc1.nbDoc, nomFichier,user,0,new Date(0000));
+								 doc.ajouterDoc();
+								 
+						        request.setAttribute( nomChamp, nomFichier );
+						        System.out.println(nomFichier);
+					    }
+				//}
+				// enregistrement d'une version du document
 				
-				if ( nomFichier != null && !nomFichier.isEmpty() ) {
-				        String nomChamp = part.getName();
-				        nomFichier = nomFichier.substring( nomFichier.lastIndexOf( '/' ) + 1 ).substring( nomFichier.lastIndexOf( '\\' ) + 1 );
-				        ecrireFichier( part, nomFichier, chemin );
-				     
-						
-							Utilisateur user = new Utilisateur(id,nom,prenom,null,null,null,null);
-							 
-							 Document doc = new Document(doc1.nbDoc, nomFichier,user,0);
-							 doc.ajouterDoc();
-					        request.setAttribute( nomChamp, nomFichier );
-					        System.out.println(nomFichier);
-				    }
 				 
 			 
 			} catch (ClassNotFoundException e1) {

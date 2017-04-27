@@ -39,8 +39,8 @@
     <url-pattern>/DocumentS</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>TelechargementS</servlet-name>
-    <servlet-class>controller.TelechargementS</servlet-class>
+    <servlet-name>VersionDocS</servlet-name>
+    <servlet-class>controller.VersionDocS</servlet-class>
     <init-param>
       <param-name>chemin</param-name>
       <param-value>/stockjee/</param-value>
@@ -53,7 +53,7 @@
     </multipart-config>
   </servlet>
   <servlet-mapping>
-    <servlet-name>TelechargementS</servlet-name>
-    <url-pattern>/TelechargementS</url-pattern>
+    <servlet-name>VersionDocS</servlet-name>
+    <url-pattern>/VersionDocS</url-pattern>
   </servlet-mapping>
 </web-app>

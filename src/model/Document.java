@@ -31,12 +31,13 @@ public class Document {
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public Document(int id, String nom, Utilisateur auteur, int visibilite) throws ClassNotFoundException, SQLException {
+	public Document(int id, String nom, Utilisateur auteur, int visibilite, Date date) throws ClassNotFoundException, SQLException {
 		this();
 		this.id = id;
 		this.nom = nom;
 		this.auteur = auteur;
 		this.visibilite = visibilite;
+		this.dateC= date;
 		nbDoc++;
 	}
 	/**
@@ -72,8 +73,8 @@ public class Document {
 	}
 	
 	public int ajouterDoc() throws SQLException{
-		 return connect.QueryUpdate("INSERT INTO document(Document_Name,Editeur_ID,Type_ID) "
-				+ "VALUES('"+this.nom+"','"+this.auteur.getId()+"','"+this.visibilite+"')");
+		 return connect.QueryUpdate("INSERT INTO document(Document_Name,Editeur_ID,Type_ID,DatePubli) "
+				+ "VALUES('"+this.nom+"','"+this.auteur.getId()+"','"+this.visibilite+"',NOW())");
 	}
 	
 	/**
@@ -83,9 +84,20 @@ public class Document {
 	 * @return
 	 * @throws SQLException
 	 */
-	public int nouveaVersion(Document doc, int userId) throws SQLException{
-		return connect.QueryUpdate("INSERT INTO versiondoc(Vdocument_ID,Vutilisateur_ID,DatEnregistrement)"
-				+ "VALUES('"+this.id+"','"+userId+"',NOW()");
+	public int nouveauVersion(int iddoc,int userId) throws SQLException{
+		java.util.Date date = new java.util.Date();
+		
+		return connect.QueryUpdate("INSERT INTO versiondoc( Vdocument_ID,Vutilisateur_ID,VersionDoc_Name,DatEnregistrement) "
+				+ "VALUES('"+iddoc+"','"+userId+"','"+this.nom+"',NOW())");
+	}
+	
+	public void trouverdoc() throws SQLException{
+		ResultSet res = connect.Query("SELECT * FROM document WHERE Document_ID = '"+this.id+"'");
+		res.next();
+		this.setId(res.getInt(1));
+		this.setNom(res.getString(2));
+		this.setVisibilite(4);
+		this.setDateC(res.getDate(5));
 	}
 	
 	/**
@@ -113,7 +125,7 @@ public class Document {
 			historyDoc.add(new Document(res.getInt(1),
 					res.getString(2),
 					utili,
-					res.getInt(4)));
+					res.getInt(4),res.getDate(5)));
 		}
 	}
 
