@@ -26,7 +26,7 @@
 		<ul class="menuOpt">
 			<li><a href="Connection?aj=1"> + ajoutez un Document</a></li>
 			<li><a href="Connection?doc=1">Mes Documents</a></li>
-			<li><a href="Connection?docp=1">Documents partagés avec moi</a></li>
+			<li><a href="Connection?docsparta=1">Documents partagés avec moi</a></li>
 		</ul>
 		<br>
 		
@@ -52,6 +52,22 @@
 				</c:forEach>
 			</ul>
 		</c:if>
+		<c:if test="${param.docsparta != null }">
+			<ul class="doc">
+				<h2>Documents partager avec moi</h2>
+				<c:forEach var="docs" items="${ docspartager }">
+					<li>
+					<a href="DocumentS?iddoc=${docs.id }"  class="affichdoc">
+						 <span class="nomdoc">${ docs.nom }</span>
+						 <span class="date">${docs.dateC }</span>
+						 
+					</a>
+				</c:forEach>
+			</ul>
+		</c:if>
+		
+		
+		
 		<c:if test="${param.aj != null }">
 			
 			<h2>Ajoutez un nouveau document</h2>
@@ -78,36 +94,58 @@
 		</c:if> 
 		
 		<!--  gestion du fihier en modification, suppression ou accessibilite à un utilisateur -->
-		<c:if test="${param.iddoc !=null && param.modif == null}">
-			<div class="lefichier">
-				<div class="contenu">
-					<ul class="button">
-						<li><a href="DocumentS?iddoc=${param.iddoc}&&modif=1">Modifier le fichier</a></li>
-						<li><a href="DocumentS?iddoc=${param.iddoc}&&suppri=1">Supprimer le fichier</a></li>
-						<li><a href="DocumentS?iddoc=${param.iddoc}&&access=1">rendre accessible</a></li>
-						<li><a href="DocumentS?iddoc=${param.iddoc}&&version=1">Les versions</a></li>
-						
-					</ul>
-					
-					<hr>
-					</br>
-					
-					<c:forEach var="content" items="${ContentFichier}">
-					${ content }</br>
-					</c:forEach>
-					
-					</br></br>
-					<hr>
-					<form action="DocumentS" method="post">
-						<input type="text" name ="commentaire" id="commenterId" placeholder="votre commentaire..." >
-						<input type="submit" value="valider">
-					</form>
-				</div>
-				<div>
-				<!-- publicité -->
-				</div>
-			</div>
+		<c:if test="${listdocsize != null }">
+			${listdocsize}
+				<c:forEach var="docs" items="${lesVersion }">
+					<li>
+					<a href="DocumentS?iddoc=${docs.id }"  class="affichdoc">
+						 <span class="nomdoc">${ docs.nom }</span>
+						 <span class="date">${docs.dateC }</span>
+						 
+					</a>
+				</c:forEach>
+				
 		</c:if>
+		<c:choose>
+			<c:when test= "${! empty suppression}">
+				<h4>	${suppression} </h4>
+			
+			</c:when>
+			
+			<c:otherwise>
+				<c:if test="${param.iddoc !=null && param.modif == null}">
+					<div class="lefichier">
+						<div class="contenu">
+							<ul class="button">
+								<li><a href="DocumentS?iddoc=${param.iddoc}&&modif=1">Modifier le fichier</a></li>
+								<li><a href="DocumentS?iddoc=${param.iddoc}&&suppri=1">Supprimer le fichier</a></li>
+								<li><a href="DocumentS?iddoc=${param.iddoc}&&acces=1">rendre accessible</a></li>
+								<li><a href="VersionDocS?iddoc=${param.iddoc}&&version=1">Les versions</a></li>
+								
+							</ul>
+							
+							<hr>
+							</br>
+							
+							<c:forEach var="content" items="${ContentFichier}">
+							
+							${ content }</br>
+							</c:forEach>
+							
+							</br></br>
+							<hr>
+							<form action="DocumentS" method="post">
+								<input type="text" name ="commentaire" id="commenterId" placeholder="votre commentaire..." >
+								<input type="submit" value="valider">
+							</form>
+						</div>
+						<div>
+						<!-- publicité -->
+						</div>
+					</div>
+				</c:if>
+			</c:otherwise>
+		</c:choose>
 		
 	</div>
 </div>

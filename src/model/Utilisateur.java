@@ -72,15 +72,19 @@ public class Utilisateur {
 	 * @throws SQLException
 	 */
 	
-	public int inscription(String nom, String prenom , Date dateN, String pseudo, String mdp, String email) throws SQLException{
-		this.setNom(nom);
+	public int inscription(String nom, String prenom , Date daten, String pseudo, String mdp, String email) throws SQLException{
+		/*this.setNom(nom);
 		this.setPrenom(prenom);
 		this.setDateN(dateN);
 		this.setPseudo(pseudo);
 		this.setMdp(mdp);
-		this.setEmail(email);
-		return connect.QueryUpdate("INSERT INTO utilisateur(Utilisateur_Name,Utilisateur_Fname,Utilisateur_DatN,Utilisateur_Pseudo,Utilisateur_Mdp, Utilisateur_email)"+
-		"VALUES('"+nom+"','"+prenom+"','"+dateN+"','"+pseudo+"','"+mdp+"','"+email+"')");
+		this.setEmail(email);*/
+		System.out.println("inscription");
+		System.out.println(daten);
+		 int okk = connect.St.executeUpdate("INSERT INTO utilisateur(Utilisateur_Name,Utilisateur_Fname,Utilisateur_DatN,Utilisateur_Pseudo,Utilisateur_Mdp,Utilisateur_email) "
+		 		+ " VALUES( '"+nom+"','"+prenom+"', '"+daten+"','"+pseudo+"','"+mdp+"','"+email+"')");
+	
+		return 0;
 	}
 	/**
 	 * Ajout d'un ami
@@ -148,31 +152,24 @@ public class Utilisateur {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException 
 	 */
-	public void listDocPartager() throws SQLException, ClassNotFoundException{
-		ResultSet res = connect.Query("SELECT * FROM document"
-				+ "WHERE document.Editeur_ID IN"
-				+ "(SELECT Document_ID FROM accesdoc"
-				+ "WHERE accesdoc.Contributeur_ID= '"+this.id+"'");
+	public ArrayList<Document> listDocPartager(Utilisateur user) throws SQLException, ClassNotFoundException{
+		ResultSet res = connect.Query("SELECT * FROM document "
+				+ "WHERE document.Editeur_ID IN "
+				+ "(SELECT Document_ID FROM accesdoc "
+				+ "WHERE accesdoc.Contributeur_ID= '"+this.id+"')");
 		while(res.next()){
-			ResultSet user = connect.Query("SELECT * FROM utilisateur"
-					+ "WHERE Utilisateur_ID='"+res.getInt(3)+"'");
-			user.next();
-			Utilisateur utili = new Utilisateur(
-					user.getInt(1),
-					user.getString(2),
-					user.getString(3),
-					user.getDate(4),
-					user.getString(5),
-					user.getString(6),
-					user.getString(7));
+					
 			listDocPartager.add(new Document(res.getInt(1),
 					res.getString(2),
-					utili,
+					user,
 					res.getInt(4),
 					res.getDate(5)
 					));
 		}
+		
+		return listDocPartager;
 	}
+	
 	public int getId() {
 		return id;
 	}

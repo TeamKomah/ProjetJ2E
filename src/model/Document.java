@@ -134,6 +134,21 @@ public class Document {
 		res.next();
 		return res.getString("Document_Name");
 	}
+	
+	public int supprimer(int id) throws SQLException{
+		return connect.QueryUpdate("delete from document where Document_ID = '"+id+"'");
+	}
+	
+	public ArrayList<Document> versions(int iddoc, Utilisateur user) throws SQLException, ClassNotFoundException{
+		ResultSet res = connect.Query("select * from versiondoc where Vdocument_ID = '"+id+"'");
+		while(res.next()){
+			user.setId(res.getInt(3));
+			historyDoc.add(new Document(res.getInt(1),res.getString(4),user,0,res.getDate(5)) );
+			System.out.println(res.getString(4));
+		}
+		return historyDoc;
+	}
+	
 	public int getId() {
 		return id;
 	}

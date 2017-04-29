@@ -34,9 +34,22 @@ public class VersionDocS extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			Document doc1 = new Document();
+			Utilisateur user = new Utilisateur();
 		
-		
-		
+			if(request.getParameter("iddoc")!=null && request.getParameter("version")!=null){
+				
+				HttpSession session= request.getSession();
+				user.setId((int)session.getAttribute("id"));
+				request.setAttribute("amis", user.listAmis());
+				request.setAttribute("listdocsize", doc1.versions(Integer.parseInt(request.getParameter("iddoc")), user).size());
+				request.setAttribute("lesVersions", doc1.versions(Integer.parseInt(request.getParameter("iddoc")), user));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
 	}
 
 	/**

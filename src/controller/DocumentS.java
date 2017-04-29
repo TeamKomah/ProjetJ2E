@@ -91,14 +91,41 @@ public class DocumentS extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if(request.getParameter("iddoc")!=null && request.getParameter("modif")!=null){
-			HttpSession session= request.getSession();
-			//request.setAttribute("amis", user.listAmis());
-			session.setAttribute("docModif", request.getParameter("iddoc"));
-		}
-		
 		try {
-				Document doc1 = new Document();
+			Document doc1 = new Document();
+			Utilisateur user = new Utilisateur();
+				/**
+				 * modification de document
+				 */
+				if(request.getParameter("iddoc")!=null && request.getParameter("modif")!=null){
+					
+						
+					
+					HttpSession session= request.getSession();
+					user.setId((int)session.getAttribute("id"));
+					request.setAttribute("amis", user.listAmis());
+					session.setAttribute("docModif", request.getParameter("iddoc"));
+					
+				}
+				/**
+				 * suppression du document
+				 */
+				if(request.getParameter("iddoc")!=null && request.getParameter("suppri")!=null){
+				
+					doc1.supprimer(Integer.parseInt(request.getParameter("iddoc")));
+					
+					HttpSession session= request.getSession();
+					user.setId((int)session.getAttribute("id"));
+					request.setAttribute("amis", user.listAmis());
+					String S = "Le fichier a été supprimé";
+					request.setAttribute("suppression", S);
+					System.out.println("okkkkkkkkkkk");
+					this.getServletContext().getRequestDispatcher("/WEB-INF/modification.jsp").forward(request, response);
+					System.out.println("okkkkkkkkkkk");
+				}
+				
+				
+				
 
 				BufferedReader fluxEntree;
 				if(request.getParameter("iddoc") != null){
@@ -166,7 +193,7 @@ public class DocumentS extends HttpServlet {
 								 doc.ajouterDoc();
 								 
 						        request.setAttribute( nomChamp, nomFichier );
-						        System.out.println(nomFichier);
+						        //System.out.println(nomFichier);
 					    }
 				//}
 				// enregistrement d'une version du document

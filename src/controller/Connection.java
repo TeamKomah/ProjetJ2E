@@ -39,6 +39,10 @@ public class Connection extends HttpServlet {
 				
 				request.setAttribute("mesdocs",user.mesDocuments(user));
 			}
+			if(request.getParameter("docsparta") != null){
+				
+				request.setAttribute("docspartager",user.listDocPartager(user));
+			}
 			 
 			
 		} catch (ClassNotFoundException | SQLException e) {
