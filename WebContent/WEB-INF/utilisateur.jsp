@@ -172,9 +172,12 @@
 				<c:if test="${! empty param.ajAmi }">
 					<ul>
 						<form action="Profile?user=${id}&&ajAmi=1" method="post">
-							<input type="text" name="recherche" placeholder="nom ou pseudo">
+							<input type="text" name="recherche" placeholder="nom ou pseudo" id="rech">
 							<input type="submit" value="Recherche">
 						</form>
+						<ul id="list_rech">
+							
+						</ul>
 					</ul>
 				
 				</c:if>

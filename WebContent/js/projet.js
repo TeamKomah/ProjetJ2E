@@ -1,3 +1,4 @@
+var input = document.getElementByid('rech');
 
 function amis(objet){
 	//document.getElementById(objet.id).style.display = "none";
@@ -11,3 +12,39 @@ function commentaire(id){
 	var commente = document.getElementById(id);
 	alert(commente.contains());
 }
+
+
+function rechercheAmis(text){
+	var url = "RechercheAmis?text="+escape(text.value);
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET',url,true);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			retour(xhr.responseXML);
+		}
+	}
+	xhr.send(null);
+}
+
+function retour(xml){
+	var rac = xml.documentElement;
+	for (var i = 0; i < rac.length; i++) {
+		var ami = rac.childNodes[i];
+		var id = ami.getElementsByTagName("id")[0].childNodes[0].nodeValue;
+		var nom = ami.getElementsByTagName("nom")[0].childNodes[0].nodeValue;
+		var prenom =  ami.getElementsByTagName("prenom")[0].childNodes[0].nodeValue;
+		var ul = document.getElementById('list_rech');
+		ul.innerHTML="";
+		var li = document.createElement('li');
+		var lien = document.createElement('a');
+		lien.setAttribute('href',"Profile?id="+id);
+		li.setAttribute('class','amis_tr');
+		lien.textContent = nom+" "+prenom;
+		li.appendChild(lien);
+		ul.appendChild(li);
+	}
+}
+
+input.addEventListener = ("onkeyup", function(){
+	rechercheAmis(this);
+});

@@ -267,6 +267,8 @@ public class Utilisateur {
 			
 			return pre.executeUpdate();
 		}
+		
+		//public Arr
 	/**
 	 * nombre d'amis
 	 * @return
@@ -315,7 +317,7 @@ public class Utilisateur {
 	
 	public ArrayList<Utilisateur> rechercheAmis(String recherche) throws SQLException{
 		ArrayList<Utilisateur> proposition = new ArrayList<>();
-		ResultSet res = connect.Query("select * from utilisateur where Utilisateur_Name'"+recherche+"', OR Utilisateur_Pseudo'"+recherche+"'");
+		ResultSet res = connect.Query("select * from utilisateur where Utilisateur_Name LIKE '"+recherche+"*', OR Utilisateur_Pseudo LIKE '"+recherche+"*'");
 		
 		while(res.next()){
 			proposition.add(new Utilisateur(

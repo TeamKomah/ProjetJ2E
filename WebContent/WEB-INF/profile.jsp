@@ -170,7 +170,8 @@
 
 
 </c:if>
+<c:if test="${id == null }">
 <h3>Vous etes deconnecte, reconnectez-vous pour pouvoir continuer <a href="Index">Connection</a></h3>
-
+</c:if>
 </body>
 </html>
