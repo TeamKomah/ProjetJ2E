@@ -92,6 +92,7 @@ public class DocumentS extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
+			HttpSession session= request.getSession();
 			Document doc1 = new Document();
 			Utilisateur user = new Utilisateur();
 				/**
@@ -99,13 +100,16 @@ public class DocumentS extends HttpServlet {
 				 */
 				if(request.getParameter("iddoc")!=null && request.getParameter("modif")!=null){
 					
-						
-					
-					HttpSession session= request.getSession();
-					user.setId((int)session.getAttribute("id"));
-					request.setAttribute("amis", user.listAmis());
-					session.setAttribute("docModif", request.getParameter("iddoc"));
-					
+						user.setId((int)session.getAttribute("id"));
+						request.setAttribute("amis", user.listAmis());
+						if(user.autorisationModif(Integer.parseInt(request.getParameter("iddoc")))){
+							
+							request.setAttribute("docmodif", request.getParameter("iddoc"));
+							System.out.println("passage  ok");
+						}
+						else{
+							request.setAttribute("docmodifMessage", " <h3>Vous n'avez pas droit de modifier ce fichier.</br> Veuillez de contacter le proprietaire.</h3>");
+						}
 				}
 				/**
 				 * suppression du document
@@ -114,21 +118,18 @@ public class DocumentS extends HttpServlet {
 				
 					doc1.supprimer(Integer.parseInt(request.getParameter("iddoc")));
 					
-					HttpSession session= request.getSession();
 					user.setId((int)session.getAttribute("id"));
 					request.setAttribute("amis", user.listAmis());
 					String S = "Le fichier a été supprimé";
 					request.setAttribute("suppression", S);
-					System.out.println("okkkkkkkkkkk");
-					this.getServletContext().getRequestDispatcher("/WEB-INF/modification.jsp").forward(request, response);
-					System.out.println("okkkkkkkkkkk");
+					
 				}
 				
 				
-				
-
 				BufferedReader fluxEntree;
 				if(request.getParameter("iddoc") != null){
+					user.setId((int)session.getAttribute("id"));
+					request.setAttribute("amis", user.listAmis());
 					String chemin = this.getServletConfig().getInitParameter("chemin");
 					 int idd = Integer.parseInt(request.getParameter("iddoc"));
 					 doc1.setId(idd);
@@ -141,11 +142,12 @@ public class DocumentS extends HttpServlet {
 					 String ligneLue = fluxEntree.readLine();
 					 ArrayList<String> listContent= new ArrayList<>();
 					while(ligneLue!=null){
-						System.out.println(ligneLue);
+						
 						listContent.add(ligneLue);
 						ligneLue = fluxEntree.readLine();
 					}
 					request.setAttribute("ContentFichier", listContent);
+					
 				}
 				
 			} catch (SQLException e) {
@@ -175,13 +177,12 @@ public class DocumentS extends HttpServlet {
 			try {
 				doc1 = new Document();
 				user = new Utilisateur();
-			
-			//	if(request.getParameter( "fichier" )!=null){
-					System.out.println("fichier detecte");
+					
 					Part part = request.getPart( "fichier" );
 					String nomFichier = getNomFichier( part );
 					
 					if ( nomFichier != null && !nomFichier.isEmpty() ) {
+						System.out.println("fichier detecte");
 					        String nomChamp = part.getName();
 					        nomFichier = nomFichier.substring( nomFichier.lastIndexOf( '/' ) + 1 ).substring( nomFichier.lastIndexOf( '\\' ) + 1 );
 					        ecrireFichier( part, nomFichier, chemin );
@@ -191,13 +192,11 @@ public class DocumentS extends HttpServlet {
 								user.setPrenom(prenom);
 								 Document doc = new Document(doc1.nbDoc, nomFichier,user,0,new Date(0000));
 								 doc.ajouterDoc();
+								 doc.accesDoc(id,doc.nbDoc());
 								 
 						        request.setAttribute( nomChamp, nomFichier );
-						        //System.out.println(nomFichier);
+						        
 					    }
-				//}
-				// enregistrement d'une version du document
-				
 				 
 			 
 			} catch (ClassNotFoundException e1) {

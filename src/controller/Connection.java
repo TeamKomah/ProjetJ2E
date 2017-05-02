@@ -32,17 +32,46 @@ public class Connection extends HttpServlet {
 		HttpSession session = request.getSession();
 		try {
 			Utilisateur user = new Utilisateur();
-			user.setId((int)session.getAttribute("id"));
+			user.setId((int)(session.getAttribute("id")));
 			request.setAttribute("amis", user.listAmis());
+			request.setAttribute("nonLu", user.getMessageNonLu());
+			request.setAttribute("Documents", user.toutLesDocuments(new Utilisateur()));
+			if(request.getParameter("profdoc") != null){
+				
+				user.setId(Integer.parseInt(request.getParameter("profdoc")));
+				request.setAttribute("mesdocs",user.mesDocuments(user));
+				this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
+			}
 			
-			if(request.getParameter("doc") != null){
+			else if(request.getParameter("doc") != null){
 				
 				request.setAttribute("mesdocs",user.mesDocuments(user));
+				this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
 			}
-			if(request.getParameter("docsparta") != null){
+			else if(request.getParameter("docsparta") != null){
 				
 				request.setAttribute("docspartager",user.listDocPartager(user));
+				this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
 			}
+			else if(request.getParameter("ajAmi")!=null){
+				request.setAttribute("lesAmisDamis", user.toutlesAmis());
+				
+				this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
+			}
+			 if(request.getParameter("aj") != null){
+				 this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
+			 }
+			 if(request.getParameter("ajoutAmi") != null){
+				 int idd = Integer.parseInt(request.getParameter("ajoutAmi"));
+				 String Anom = request.getParameter("Anom");
+				 String Aprenom = request.getParameter("Aprenom");
+				 Utilisateur ami = new Utilisateur();
+				 ami.setId(idd);
+				 ami.setNom(Anom);
+				 ami.setPrenom(Aprenom);
+				 user.ajouterAmi(ami);
+				 this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
+			 }
 			 
 			
 		} catch (ClassNotFoundException | SQLException e) {
@@ -50,7 +79,7 @@ public class Connection extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
 		
 	}
 
@@ -70,8 +99,11 @@ public class Connection extends HttpServlet {
 				session.setAttribute("prenom", user.getPrenom());
 				session.setAttribute("id", user.getId());
 				request.setAttribute("amis", user.listAmis());
+				request.setAttribute("Documents", user.toutLesDocuments(new Utilisateur()));
+				request.setAttribute("nonLu", user.getMessageNonLu());
 				
-				this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
+				
+				this.getServletContext().getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
 			}
 			else{
 				

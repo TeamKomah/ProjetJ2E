@@ -193,6 +193,93 @@ img {
 	background-position: right top;
 	background-color: #fff2f2;
 	}
+.deroule{
+
+}
+.deroule ul{
+	width:115px;
+	
+	position:absolute;
+	padding-left: 0px;
+	padding-top:17px;
+	float: left;
+	
+}
+.deroule ul li{
+	display: none;
+}
+
+
+.deroule:hover ul li {
+	display:block;
+	height: 5px;
+	background-color: #47786a;
+	text-align: center;
+	padding-top: 0;	
+}
+#deroule li input[type=submit]{
+	background-color: wite;
+    
+    padding: 0px;
+    box-shadow: 0 0 5px 1px #969696;
+	border-top: 2px solid #4ECDB4;
+    border-left: 2px solid #4ECDB4;
+    border-bottom: 2px solid #4ECDB4;
+	border-radius: 5px 0 0 5px;
+	width: 115px;
+	height:20px;
+	float:right;
+	font-size:0.8em;
+	text-indent: 10px;
+}
+
+/*  MISE EN PAGE AMIS  */
+
+.amis {
+	min-height:100px;
+}
+
+.amis:hover > div.hide{
+	display:block;
+}
+
+.hide{
+	display:none;
+}
+
+.hide > span{
+	display:inline-block;
+}
+
+.nonLu{
+	background-color:red;
+	color:white;
+}
+
+/*  CONBERSATION */
+
+#conversation{
+	background-color: white;
+	width : 1000px;
+} 
+
+.env{
+	background-color: #d0d1d5;
+}
+
+.rec{
+	background-color: #e7efed;
+	text-align: right;
+}
+
+
+.env, .rec {
+	max-width: 500px;
+}
+
+.heure{
+	font-size: 0.5em;	
+}
 	
 /*.clear {
 	clear:both;

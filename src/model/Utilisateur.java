@@ -2,6 +2,7 @@ package model;
 
 import java.awt.List;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,6 +28,20 @@ public class Utilisateur {
 	public Utilisateur() throws ClassNotFoundException, SQLException{
 		 connect = ConnectionBD.getConnectionBD();
 	}
+	
+	public Utilisateur(int id) throws SQLException, ClassNotFoundException{
+		connect = ConnectionBD.getConnectionBD();
+		PreparedStatement pre = null;
+		pre = (PreparedStatement) connect.getConnect().prepareStatement("SELECT * FROM utilisateur WHERE Utilisateur_ID=?");
+		pre.setInt(1,id);
+		ResultSet res = pre.executeQuery();
+		if(res.next()){
+			this.id = id;
+			this.nom = res.getString(2);
+			this.prenom = res.getString(3);
+		}
+	}
+	
 	public Utilisateur(int id, String nom, String prenom, Date dateN, String pseudo, String mdp, String email) {
 		super();
 		this.id = id;
@@ -36,6 +51,20 @@ public class Utilisateur {
 		this.pseudo = pseudo;
 		this.mdp = mdp;
 		this.email = email;
+	}
+	public void getUtilisateur(int id) throws SQLException{
+		ResultSet res = connect.Query("SELECT *"
+				+ "FROM utilisateur "
+				+ "WHERE  utilisateur.Utilisateur_ID='"+id+"'");
+		if(res!=null){
+			res.next();
+			this.setId(res.getInt(1));
+			this.setNom(res.getString(2));
+			this.setPrenom(res.getString(3));
+			this.setDateN(res.getDate(4));
+			this.setPseudo(res.getString(5));
+		
+		}
 	}
 	/**
 	 * Identification d'un utilisateur
@@ -154,9 +183,9 @@ public class Utilisateur {
 	 */
 	public ArrayList<Document> listDocPartager(Utilisateur user) throws SQLException, ClassNotFoundException{
 		ResultSet res = connect.Query("SELECT * FROM document "
-				+ "WHERE document.Editeur_ID IN "
+				+ "WHERE Document_ID IN "
 				+ "(SELECT Document_ID FROM accesdoc "
-				+ "WHERE accesdoc.Contributeur_ID= '"+this.id+"')");
+				+ "WHERE Contributeur_ID= '"+user.getId()+"')");
 		while(res.next()){
 					
 			listDocPartager.add(new Document(res.getInt(1),
@@ -168,6 +197,153 @@ public class Utilisateur {
 		}
 		
 		return listDocPartager;
+	}
+	/**
+	 * methode qui recupere toute la conversation avec l'uitilisateur idAmi
+	 * @param idAmi
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	
+		//methode qui recupere toute la conversation avec l'uitilisateur idAmi
+		public ArrayList<Message> getCommunication(int idAmi) throws SQLException, ClassNotFoundException{
+			ArrayList<Message> com = new ArrayList<Message>();
+		
+			ResultSet res = connect.Query("SELECT * FROM message "
+													+ " WHERE Emeteur_ID IN ("+this.id+","+idAmi+") "
+													+ " AND Recepteur_ID IN ("+this.id+","+idAmi+") "
+													+ " ORDER BY DateMess ASC");
+			while(res.next()){
+				int idM = res.getInt(1);
+				int idE = res.getInt(2);
+				int idR = res.getInt(3);
+				Date dateM =  res.getDate(4);
+				String cont = res.getString(5);
+				Message msg = new Message(idM, cont, dateM, idE, idR);
+				//ajout du message dans la communication
+				com.add(msg);
+			}
+			
+			return com;
+			
+		}
+		
+		//recuperation des message non lu
+		public ArrayList<int[]> getMessageNonLu() throws ClassNotFoundException, SQLException{
+			ArrayList<int[]> array = new ArrayList<>();
+			connect = ConnectionBD.getConnectionBD();
+			PreparedStatement pre = null;
+			pre = (PreparedStatement) connect.getConnect().prepareStatement
+					("SELECT Emeteur_ID,COUNT(*) FROM message "
+					+ "WHERE Recepteur_ID = ? AND vu = ? "
+					+ "GROUP BY Emeteur_ID");
+			
+			pre.setInt(1,this.getId());
+			pre.setInt(2,0);
+			
+			ResultSet res = pre.executeQuery();
+			while (res.next()) {
+				int tab[] = new int[2]; 
+				int id = res.getInt(1);
+				int nb = res.getInt(2);
+				tab[0] = id;
+				tab[1] = nb;
+				array.add(tab);
+			}
+			return array;	
+		}
+		
+		public int tousLu(int idAmi) throws SQLException, ClassNotFoundException{
+			connect = ConnectionBD.getConnectionBD();
+			PreparedStatement pre = null;
+			pre = (PreparedStatement) connect.getConnect().prepareStatement
+					("UPDATE message set vu = ? "
+					+ "WHERE Emeteur_ID = ? AND Recepteur_ID = ?");
+			
+			pre.setInt(1, 1);
+			pre.setInt(2, idAmi);
+			pre.setInt(3, this.getId());
+			
+			return pre.executeUpdate();
+		}
+	/**
+	 * nombre d'amis
+	 * @return
+	 * @throws SQLException
+	 */
+	public int nbAmis() throws SQLException{
+		ResultSet res = connect.Query("select MAX(Amis_ID) from amis where Autilisateur_ID = '"+this.id+"'");
+		res.next();
+		return res.getInt(1);
+	}
+	/**
+	 * recuperation de tout les amis de ses amis
+	 * @return
+	 * @throws SQLException
+	 */
+	public ArrayList<Utilisateur> toutlesAmis() throws SQLException{
+		ArrayList<Utilisateur> amisdamis= new ArrayList<>();
+		ResultSet res = connect.Query("select * from utilisateur "
+				+ "where Utilisateur_ID <> '"+this.id+"'");
+		while(res.next()){
+			amisdamis.add(new Utilisateur(
+					res.getInt(1),
+					res.getString(2),
+					res.getString(3),
+					res.getDate(4),
+					res.getString(5),
+					res.getString(6),
+					res.getString(7)
+					)
+					);
+		}
+		return amisdamis;
+	}
+	
+	public ArrayList<Document> toutLesDocuments(Utilisateur utili) throws SQLException, ClassNotFoundException{
+		ArrayList<Document> ttdoc= new ArrayList<>();
+		ResultSet res = connect.Query("SELECT * FROM document");
+	
+		while(res.next()){
+			utili.setId(res.getInt(3));
+		ttdoc.add(new Document(res.getInt(1),res.getString(2),utili,res.getInt(4),res.getDate(5)));
+		
+		}
+		return ttdoc;
+	}
+	
+	public ArrayList<Utilisateur> rechercheAmis(String recherche) throws SQLException{
+		ArrayList<Utilisateur> proposition = new ArrayList<>();
+		ResultSet res = connect.Query("select * from utilisateur where Utilisateur_Name'"+recherche+"', OR Utilisateur_Pseudo'"+recherche+"'");
+		
+		while(res.next()){
+			proposition.add(new Utilisateur(
+					res.getInt(1),
+					res.getString(2),
+					res.getString(3),
+					res.getDate(4),
+					res.getString(5),
+					res.getString(6),
+					res.getString(7)
+					)
+					);
+		}
+		return proposition;
+	}
+	
+	
+	public boolean autorisationModif(int iddoc) throws SQLException {
+		System.out.println("passage  ok");
+		ResultSet res = connect.Query("SELECT* "
+				+ "FROM accesdoc "
+				+ "WHERE  Contributeur_ID='"+this.id+"' AND Document_Id='"+iddoc+"'");
+		if(res.next()){
+			
+			System.out.println("user ");
+			return true;
+		}
+	return false;
 	}
 	
 	public int getId() {

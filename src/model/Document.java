@@ -77,6 +77,13 @@ public class Document {
 				+ "VALUES('"+this.nom+"','"+this.auteur.getId()+"','"+this.visibilite+"',NOW())");
 	}
 	
+	public int accesDoc(int user, int iddoc ) throws SQLException{
+		 return connect.QueryUpdate("INSERT INTO accesdoc(Contributeur_ID,Document_Id) "
+				+ "VALUES('"+user+"','"+iddoc+"')");
+	}
+	
+	
+	
 	/**
 	 * Ajout d'une nouvelle version du document.
 	 * @param doc
@@ -140,13 +147,20 @@ public class Document {
 	}
 	
 	public ArrayList<Document> versions(int iddoc, Utilisateur user) throws SQLException, ClassNotFoundException{
-		ResultSet res = connect.Query("select * from versiondoc where Vdocument_ID = '"+id+"'");
+		ResultSet res = connect.Query("select * from versiondoc where Vdocument_ID = '"+iddoc+"'");
 		while(res.next()){
 			user.setId(res.getInt(3));
+			System.out.println("versioonn doccc");
 			historyDoc.add(new Document(res.getInt(1),res.getString(4),user,0,res.getDate(5)) );
 			System.out.println(res.getString(4));
 		}
 		return historyDoc;
+	}
+	
+	public int nbDoc() throws SQLException{
+		ResultSet res = connect.Query("select MAX(Document_ID) from document ");
+		res.next();
+		return res.getInt(1);
 	}
 	
 	public int getId() {

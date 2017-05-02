@@ -37,7 +37,7 @@ public class VersionDocS extends HttpServlet {
 		try {
 			Document doc1 = new Document();
 			Utilisateur user = new Utilisateur();
-		
+			
 			if(request.getParameter("iddoc")!=null && request.getParameter("version")!=null){
 				
 				HttpSession session= request.getSession();
@@ -49,7 +49,7 @@ public class VersionDocS extends HttpServlet {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/modification.jsp").forward(request, response);
 	}
 
 	/**

@@ -24,6 +24,14 @@ public class ConnectionBD {
 		
 	}
 	
+	public java.sql.Connection getConnect() {
+		return connect;
+	}
+
+	public void setConnect(java.sql.Connection connect) {
+		this.connect = connect;
+	}
+
 	public int QueryUpdate(String update) throws SQLException{
 		return St.executeUpdate(update);
 	}
