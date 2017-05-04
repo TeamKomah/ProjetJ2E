@@ -90,7 +90,7 @@ public class DocumentS extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//response.setContentType("html");
 		try {
 			HttpSession session= request.getSession();
 			Document doc1 = new Document();
@@ -207,7 +207,7 @@ public class DocumentS extends HttpServlet {
 				e1.printStackTrace();
 			}
 			System.out.println("passage");
-			 response.sendRedirect("Connection");
+			 response.sendRedirect("Connection?doc=1");
 		
 	}
 

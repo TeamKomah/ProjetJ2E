@@ -3,7 +3,7 @@
 
 body {
     background-color: #4ab5b5;
-   	width:1328px;
+   	width:100%;
 	
    
 }
@@ -15,23 +15,59 @@ body {
     opacity: 1.5;
     filter: alpha(opacity=100);
 }
+#area{
+	text-align: left;
+}
 .left {
 	float:left;
-	}	
-.tete h1{
-	width: 100%;
+	}
+.tete > div{
+	display: inline-block;
+	margin-top: -40px;
+	
+}	
+.tete{	
+background-color: orange;
+width: 100%;
 	height: 50px;
-	background-color: orange;
 	color: white;
 	letter-spacing: 2px;
 	font-size: 20px;
-	padding-left: 10px;
 	padding-top: 20px;
 	margin-top: -10px;
 	margin-left: -10px;
-
-
    
+}
+.formRech{
+	float: right;
+	padding-top: 20px;
+}
+.formRech input[type=text]{
+	background-color: wite;
+    padding: 5px;
+    box-shadow: 0 0 5px 1px #969696;
+	border-top: 1px solid #4ECDB4;
+    border-left: 1px solid #4ECDB4;
+    border-bottom: 1px solid #4ECDB4;
+    border-right: 1px solid #4ECDB4;
+	border-radius: 5px 0 0 5px;
+	height:25px;
+	font-size:1.1em;
+	text-indent: 10px;
+}
+
+#list_rech{
+	position: absolute;
+	
+}
+#list_rech li{
+	width: 100%;
+	height: 30px;
+	background-color: #8a8993;
+	border-top: 0.5px solid white;
+    padding-left: 0px;
+    overflow: hidden;
+    list-style-type: none;
 }
 .menu{
 	width: 25%;
@@ -54,11 +90,22 @@ body {
 	padding-left: 0px;
 	padding-top: 20px;
 }
+.menuOpt li{
+	width: 100%;
+	height: 30px;
+	background-color: #8a8993;
+	border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    padding-left: 0px;
+    overflow: hidden;
+    list-style-type: none;
+}
 .milieu{
 	width: 75%;
 	height: 100%;
 }
-li{
+.doc li{
 	width: 100%;
 	height: 30px;
 	background-color: #8a8993;
@@ -237,6 +284,18 @@ img {
 
 .amis {
 	min-height:100px;
+}
+
+.amis{
+	width: 100%;
+	height: 30px;
+	background-color: #8a8993;
+	border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    padding-left: 0px;
+    overflow: hidden;
+    list-style-type: none;
 }
 
 .amis:hover > div.hide{

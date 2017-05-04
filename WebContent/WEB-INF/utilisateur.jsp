@@ -13,11 +13,24 @@
 <link rel="stylesheet" type="text/css" href="css/main.css"/>
 </head>
 <body>
-<c:if test="${! empty id }">
+
 		<div class="tete">
-		<h1>HELP ME</h1>
-		<h4><a href="Connection">Accueil</a> <a href="Index?decon=1">Deconnexion</a></h4>
+			<div class="titre">
+				<h1>HELP ME</h1>
+			</div>
+			<div class="formRech">
+				<ul>
+					<form action="Profile?user=${id}&&ajAmi=1" method="post">
+						<input type="text" name="recherche" placeholder="nom ou pseudo" id="rech">
+						<input type="submit" value="Recherche">
+					</form>
+					<ul id="list_rech">
+								
+					</ul>
+				</ul>
+			</div>	
 		</div>
+		<h4><a href="Connection">Accueil</a> <a href="Index?decon=1">Deconnexion</a></h4>
 		<div class="block">
 			<div class = "menu">
 				<h3 class="utilNomPrenom">
@@ -106,9 +119,9 @@
 				 <c:if test="${param.iddoc != null && param.modif != null && docmodif != null }">
 				<% request.setAttribute("docModif", null); %> 
 					<form action="VersionDocS" method="post">
-						<textarea name="newversion" rows="35px" cols="100%">
+						<textarea name="newversion" rows="35px" cols="100%" id="area">
 						<c:forEach var="content" items="${ContentFichier}">
-						${ content }
+${ content }
 						</c:forEach>
 						</textarea>
 						<input type="submit" value="enregistre">
@@ -170,15 +183,7 @@
 					</c:otherwise>
 				</c:choose> 
 				<c:if test="${! empty param.ajAmi }">
-					<ul>
-						<form action="Profile?user=${id}&&ajAmi=1" method="post">
-							<input type="text" name="recherche" placeholder="nom ou pseudo" id="rech">
-							<input type="submit" value="Recherche">
-						</form>
-						<ul id="list_rech">
-							
-						</ul>
-					</ul>
+					
 				
 				</c:if>
 				<c:if test="${!empty lesAmisDamis }">
@@ -207,12 +212,8 @@
 				<!-- fin de  block-col2-->
 			</div>
 		</div>
-		<script type="text/javascript"  src="js/projet.js"></script>
-		<script type="text/javascript"  src="js/profil.js"></script>
 		
-</c:if>
-<c:if test="${id == null }">
-<h3>Vous etes deconnecte, reconnectez-vous pour pouvoir continuer <a href="Index">Connection</a></h3>
-</c:if>
+
+<script type="text/javascript"  src="js/projet.js"></script> 
 </body>
 </html>

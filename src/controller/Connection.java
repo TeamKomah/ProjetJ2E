@@ -30,6 +30,8 @@ public class Connection extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		
+	if(session.getAttribute("id")!=null){
 		try {
 			Utilisateur user = new Utilisateur();
 			user.setId((int)(session.getAttribute("id")));
@@ -80,7 +82,10 @@ public class Connection extends HttpServlet {
 		}
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
-		
+	}
+	else{
+		this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+	}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

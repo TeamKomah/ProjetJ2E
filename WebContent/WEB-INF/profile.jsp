@@ -17,10 +17,23 @@
 
 <c:if test="${! empty id }">
 
-			<div class="tete">
-			<h1>HELP ME</h1>
-			<h5><a href="Connection">retour à l'accueil</a> > profile d'un utilisateur</h5>
-			</div>
+		<div class="tete">
+				<div class="titre">
+					<h1>HELP ME</h1>
+				</div>
+				<div class="formRech">
+					<ul>
+						<form action="Profile?user=${id}&&ajAmi=1" method="post">
+							<input type="text" name="recherche" placeholder="nom ou pseudo" id="rech">
+							<input type="submit" value="Recherche">
+						</form>
+						<ul id="list_rech">
+									
+						</ul>
+					</ul>
+				</div>	
+		</div>
+		<h4><a href="Connection">Accueil</a> <a href="Index?decon=1">Deconnexion</a></h4>
 			<div class="block">
 				<div class = "menu">
 					<h3 class="utilNomPrenom">
