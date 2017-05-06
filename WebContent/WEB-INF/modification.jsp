@@ -63,7 +63,7 @@
 	<h2>Les versions du document</h2>
 			<c:forEach var="docs" items="${lesVersions}">
 				<li>
-				<a href="DocumentS?iddoc=${docs.id }"  class="affichdoc">
+				<a href="DocumentS?iddoc=${docs.id }&&iddocVersio=1"  class="affichdoc">
 					 <span class="nomdoc">${ docs.nom }</span>
 					 <span class="date">${docs.dateC }</span>
 					 

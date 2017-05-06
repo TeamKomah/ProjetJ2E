@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import model.Message;
 import model.Utilisateur;
@@ -47,12 +50,20 @@ public class Communiquer extends HttpServlet {
 			request.setAttribute("nonLu", exp.getMessageNonLu());
 			request.setAttribute("expediteur", exp);
 			request.setAttribute("recepteur", recep);
-			request.setAttribute("communication", exp.getCommunication(idR));
+			exp.getCommunication(idR);
+			System.out.println("passage Comminuquer");
+			//request.setAttribute("communication", exp.getCommunication(idR));
 			this.getServletContext().getRequestDispatcher("/WEB-INF/communiquer.jsp").forward(request, response);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	

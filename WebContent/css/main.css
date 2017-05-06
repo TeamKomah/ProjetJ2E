@@ -67,6 +67,7 @@ width: 100%;
 	border-top: 0.5px solid white;
     padding-left: 0px;
     overflow: hidden;
+    float:  left;
     list-style-type: none;
 }
 .menu{
@@ -150,14 +151,12 @@ width: 100%;
 	display: inline-table;
 }
 .contenu{
-	width: 80%;
+	width: 100%;
 	background-color: #969696;
 	float: left;
 	border-bottom: 1px solid #FFFFFF;
 }
-.contenu ul{
-	/*float: left;*/
-}
+
 .contenu ul li{
 	background-color: #c4797b;
 	display: inline;
@@ -183,7 +182,7 @@ li:hover {background-color: #F2462E;}
 	text-indent: 10px;
 }
 
-.contenu form input[type=submit]{
+/*.contenu form input[type=submit]{
 	background-color: wite;
     
     padding: 2px;
@@ -197,7 +196,7 @@ li:hover {background-color: #F2462E;}
 	float:right;
 	font-size:1.1em;
 	text-indent: 10px;
-}
+}*/
 
 /*li:active {background-color: #5F879D;}*/
 #formInscrip form input[type=password]{
@@ -244,7 +243,7 @@ img {
 
 }
 .deroule ul{
-	width:115px;
+	width:185px;
 	
 	position:absolute;
 	padding-left: 0px;
@@ -254,28 +253,30 @@ img {
 }
 .deroule ul li{
 	display: none;
+	text-align: left;
 }
 
 
 .deroule:hover ul li {
 	display:block;
-	height: 5px;
+	height: 18px;
 	background-color: #47786a;
-	text-align: center;
+	text-align: left;
 	padding-top: 0;	
 }
 #deroule li input[type=submit]{
-	background-color: wite;
+	/*background-color: wite;*/
     
-    padding: 0px;
-    box-shadow: 0 0 5px 1px #969696;
-	border-top: 2px solid #4ECDB4;
+    padding-bottom: 14px;
+    /*box-shadow: 0 0 5px 1px #969696;*/
+	/*border-top: 2px solid #4ECDB4;
     border-left: 2px solid #4ECDB4;
     border-bottom: 2px solid #4ECDB4;
-	border-radius: 5px 0 0 5px;
-	width: 115px;
-	height:20px;
-	float:right;
+	border-radius: 5px 0 0 5px;*/
+	
+	height:10px;
+	width:100%;
+	float:left;
 	font-size:0.8em;
 	text-indent: 10px;
 }

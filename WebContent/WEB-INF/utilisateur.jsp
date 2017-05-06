@@ -11,6 +11,7 @@
 <%@ page import = "java.sql.SQLException" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" type="text/css" href="css/main.css"/>
+<xml id="fichierxml" src="C:/Users/snianfo/Documents/Java_tp_et_projet/ProjetJavaEE/WebContent/WEB-INF/message.xml"></xml>
 </head>
 <body>
 
@@ -41,7 +42,7 @@
 				<ul class="menuOpt">
 					<li><a  href="Connection?ajAmi=1">+ ajouter un ami</a></li>
 					<li><a href="Connection?aj=1"> + ajoutez un Document</a></li>
-					<li><a href="Connection?doc=1">Mes Documents</a></li>
+					<li><a href="Connection?doc=1&&userid=${id}">Mes Documents</a></li>
 					<li><a href="Connection?docsparta=1">Documents partagés avec moi</a></li>
 					
 				</ul>
@@ -79,7 +80,7 @@
 						<h2>Mes Documents</h2>
 						<c:forEach var="docs" items="${ mesdocs }">
 							<li>
-							<a href="DocumentS?iddoc=${docs.id }"  class="affichdoc">
+							<a href="DocumentS?iddoc=${docs.id }&&userid=${id}"  class="affichdoc">
 								 <span class="nomdoc">${ docs.nom }</span>
 								 <span class="date">${docs.dateC }</span>
 								 
@@ -115,77 +116,9 @@
 					</form>
 					
 				</c:if>
-				${docmodifMessage}
-				 <c:if test="${param.iddoc != null && param.modif != null && docmodif != null }">
-				<% request.setAttribute("docModif", null); %> 
-					<form action="VersionDocS" method="post">
-						<textarea name="newversion" rows="35px" cols="100%" id="area">
-						<c:forEach var="content" items="${ContentFichier}">
-${ content }
-						</c:forEach>
-						</textarea>
-						<input type="submit" value="enregistre">
-					</form>
-					
-				</c:if> 
 				
 				<!--  gestion du fihier en modification, suppression ou accessibilite à un utilisateur -->
 			
-				<c:choose>
-					<c:when test= "${! empty suppression}">
-						<h4>	${suppression} </h4>
-					
-					</c:when>
-					
-					<c:otherwise>
-						<c:if test="${param.iddoc !=null && param.modif == null}">
-							<div class="lefichier">
-								<div class="contenu">
-									<ul class="button">
-			
-										<li class="deroule"><a href="DocumentS?iddoc=${param.iddoc}&&acces=1" >rendre accessible</a>
-											
-											<ul id = "deroule" >
-												<form action="DocumentS1?iddoc=${param.iddoc }" method="post">
-													<c:forEach var="am" items="${ amis }">
-													<li><input type="checkbox" name="${am.id }" value="${am.id }"> <a href="#">${ am.nom } ${am.prenom }</a></li>
-													</c:forEach>
-													<li><input type="submit" value="Ajouter"/></li>
-												</form>
-											</ul>
-											
-										</li>
-										<li><a href="VersionDocS?iddoc=${param.iddoc}&&version=1&&modif=0">Les versions</a></li>
-										<li><a href="DocumentS?iddoc=${param.iddoc}&&modif=1">Modifier le fichier</a></li>
-										<li><a href="DocumentS?iddoc=${param.iddoc}&&suppri=1">Supprimer le fichier</a></li>
-									</ul>
-									
-									<hr>
-									</br>
-									
-									<c:forEach var="content" items="${ContentFichier}">
-									
-									${ content }</br>
-									</c:forEach>
-									
-									</br></br>
-									<hr>
-									<form action="DocumentS" method="post">
-										<input type="text" name ="commentaire" id="commenterId" placeholder="votre commentaire..." >
-										<input type="submit" value="valider">
-									</form>
-								</div>
-								<div>
-								
-								</div>
-							</div>
-						</c:if>
-					</c:otherwise>
-				</c:choose> 
-				<c:if test="${! empty param.ajAmi }">
-					
-				
-				</c:if>
 				<c:if test="${!empty lesAmisDamis }">
 					
 					<ul>

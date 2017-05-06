@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Document {
 	public Utilisateur auteur;
 	public Date dateC;
 	private ArrayList <Utilisateur> listContributeur = new ArrayList<>();
+	private ArrayList <Commentaire> listComDoc = new ArrayList<>();
 	public int visibilite;
 	private ArrayList<Document> historyDoc = new ArrayList<>();
 	public File readme;
@@ -40,6 +42,48 @@ public class Document {
 		this.dateC= date;
 		nbDoc++;
 	}
+	
+	/**
+	 * 
+	 * @param idDocmt
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public Document(int idDocmt) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated constructor stub
+		connect = ConnectionBD.getConnectionBD();
+		PreparedStatement pre = null;
+		pre = (PreparedStatement) connect.getConnect().prepareStatement("SELECT * FROM document WHERE Document_ID=?");
+		pre.setInt(1,idDocmt);
+		ResultSet res = pre.executeQuery();
+		if(res.next()){
+			this.id = idDocmt;
+			this.nom = res.getString(2);
+			this.auteur = new Utilisateur(res.getInt(3));
+		}
+	}
+	/**
+	 * methode qui recupere tous les commentaire liés a un document
+	 * @return une lite contenant les commentaire
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public ArrayList<Commentaire> getCommentaireDoc() throws SQLException, ClassNotFoundException{
+
+		ResultSet res = connect.Query("SELECT *"
+				+ "FROM commentaire "
+				+ "WHERE  Cdoc_ID='"+this.id+"'" + " ORDER BY dateCommentaire ASC");
+		while(res.next()){
+			listComDoc.add( new Commentaire (res.getInt(3),
+				res.getInt(1),
+				res.getString(2),
+			 	res.getDate(5),this.id)
+			 	);
+		}
+
+		return listComDoc;
+		}
+	
 	/**
 	 * Ajout d'un nouveau contributeur.
 	 * @param user
@@ -136,11 +180,25 @@ public class Document {
 		}
 	}
 
-	public String recupererDoc() throws SQLException{
-		ResultSet res = connect.Query("SELECT Document_Name FROM document WHERE Document_ID='"+this.id+"'");
+	public ArrayList<String> recupererDoc() throws SQLException{
+		ResultSet res = connect.Query("SELECT Document_ID, Document_Name FROM document WHERE Document_ID='"+this.id+"'");
 		res.next();
-		return res.getString("Document_Name");
+		ArrayList doc = new ArrayList();
+		doc.add(res.getInt(1));
+		doc.add(res.getString("Document_Name"));
+		return doc;
 	}
+	
+	
+	public ArrayList<String> recupererDocVersio() throws SQLException{
+		ResultSet res = connect.Query("SELECT VersionDoc_ID, VersionDoc_Name FROM versiondoc WHERE VersionDoc_ID='"+this.id+"'");
+		res.next();
+		ArrayList doc = new ArrayList();
+		doc.add(res.getInt("VersionDoc_ID"));
+		doc.add(res.getString("VersionDoc_Name"));
+		return doc;
+	}
+	
 	
 	public int supprimer(int id) throws SQLException{
 		return connect.QueryUpdate("delete from document where Document_ID = '"+id+"'");

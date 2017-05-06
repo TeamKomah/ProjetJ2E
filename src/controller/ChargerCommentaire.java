@@ -9,24 +9,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.xml.sax.SAXException;
-
-import model.Message;
-import model.Utilisateur;
+import model.Commentaire;
+import model.Document;
 
 /**
- * Servlet implementation class ChargerConversation
+ * Servlet implementation class ChargerCommentaire
  */
-@WebServlet("/ChargerConversation")
-public class ChargerConversation extends HttpServlet {
+@WebServlet("/ChargerCommentaire")
+public class ChargerCommentaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ChargerConversation() {
+    public ChargerCommentaire() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,32 +35,28 @@ public class ChargerConversation extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("text/xml");
 		response.setHeader("Cache-Control", "no-cache");
-		int idR = Integer.parseInt(request.getParameter("recep"));
-		int idE = Integer.parseInt(request.getParameter("exp"));
+		
+		int id = Integer.parseInt(request.getParameter("doc"));
+		
 		try {
-			Utilisateur exp = new Utilisateur(idE);
-			int a = exp.tousLu(idR);
-			ArrayList<Message> com = exp.getCommunication(idR);
-			response.getWriter().write("<convers>");
-			for (int i = 0; i < com.size(); i++){
-				Message msg = com.get(i);
-				response.getWriter().write("<message>"
-						+ "<expediteur>"+msg.getExpediteur().getId()+"</expediteur>"
-						+ "<heure>"+msg.getDateMes()+"</heure>"
-						+ "<cont>"+msg.getContenu()+"</cont>"
-						+ "</message>");
+			Document doc = new Document(id);
+			ArrayList<Commentaire> list = doc.getCommentaireDoc();
+			
+			response.getWriter().write("<list>");
+			for (int i = 0; i < list.size(); i++) {
+				Commentaire com = list.get(i);
+				response.getWriter().write("<com>"
+						+ "<cont>"+com.getContenu()+"</cont>"
+						+ "<date>"+com.getDateCommentaire()+"</date>"
+						+ "<idU>"+com.getExpediteurCom().getId()+"</idU>"
+						+ "<pseudo>"+com.getExpediteurCom().getPseudo()+"</pseudo>"
+						+ "</com>");
 			}
-			response.getWriter().write("</convers>");
+			response.getWriter().write("</list>");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

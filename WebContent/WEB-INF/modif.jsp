@@ -10,10 +10,11 @@
 <%@ page import = "java.sql.SQLException" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" type="text/css" href="css/main.css"/>
+
 </head>
 <body>
-<c:if test="${! empty id }">
-	<div class="tete">
+
+<div class="tete">
 			<div class="titre">
 				<h1>HELP ME</h1>
 			</div>
@@ -69,25 +70,31 @@
 					</li>
 					</c:forEach>
 				</ul>
-		</div>		
-		<div class="block-col2">
-			<ul>
+			</div>
+			<div class="block-col2">
+			
+				<c:if test="${docmodif != null }">
+					<form action="VersionDocS?iddoc=${docmodif }" method="post">
+						<textarea name="newversion" rows="35px" cols="100%" id="area">
+						
+						<c:forEach var="content" items="${ContentFichier}">
+${ content }
+						</c:forEach>
+						</textarea>
+						<input type="submit" value="enregistre">
+					</form>
+				</c:if>
+					
+${docmodifMessage}
 				
-				<c:forEach var="d" items="${Documents }">
-					<li>
-				
-						<a href="DocumentS?iddoc=${d.id }"  class="affichdoc">
-							 <span class="nomdoc">${d.nom }</span>
-							 <span class="date">${d.dateC }</span>
-										 
-						</a>
-					</li>
-					<hr>
-				</c:forEach>
-			</ul>
+				<!-- fin de  block-col2-->
+			</div>
 		</div>
-</div>
-</c:if>
-</body>
+		
+
 <script type="text/javascript"  src="js/projet.js"></script> 
+<script type="text/javascript"  src="js/commentaire.js"></script> 
+
+
+</body>
 </html>

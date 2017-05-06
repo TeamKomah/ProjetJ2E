@@ -48,6 +48,7 @@ public class Connection extends HttpServlet {
 			else if(request.getParameter("doc") != null){
 				
 				request.setAttribute("mesdocs",user.mesDocuments(user));
+				request.setAttribute("userid", request.getParameter("userid"));
 				this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
 			}
 			else if(request.getParameter("docsparta") != null){

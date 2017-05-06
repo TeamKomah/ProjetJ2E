@@ -95,22 +95,8 @@ public class DocumentS extends HttpServlet {
 			HttpSession session= request.getSession();
 			Document doc1 = new Document();
 			Utilisateur user = new Utilisateur();
-				/**
-				 * modification de document
-				 */
-				if(request.getParameter("iddoc")!=null && request.getParameter("modif")!=null){
-					
-						user.setId((int)session.getAttribute("id"));
-						request.setAttribute("amis", user.listAmis());
-						if(user.autorisationModif(Integer.parseInt(request.getParameter("iddoc")))){
-							
-							request.setAttribute("docmodif", request.getParameter("iddoc"));
-							System.out.println("passage  ok");
-						}
-						else{
-							request.setAttribute("docmodifMessage", " <h3>Vous n'avez pas droit de modifier ce fichier.</br> Veuillez de contacter le proprietaire.</h3>");
-						}
-				}
+				
+				
 				/**
 				 * suppression du document
 				 */
@@ -124,7 +110,9 @@ public class DocumentS extends HttpServlet {
 					request.setAttribute("suppression", S);
 					
 				}
-				
+				/**
+				 * recuperation du nom du fichier dans bd et son contenu.
+				 */
 				
 				BufferedReader fluxEntree;
 				if(request.getParameter("iddoc") != null){
@@ -133,11 +121,15 @@ public class DocumentS extends HttpServlet {
 					String chemin = this.getServletConfig().getInitParameter("chemin");
 					 int idd = Integer.parseInt(request.getParameter("iddoc"));
 					 doc1.setId(idd);
-					 String nomdoc;
+					ArrayList<String> nomdoc;
+					if(request.getParameter("iddocVersio") != null){
+						nomdoc = doc1.recupererDocVersio();
+					}
+					else{
+						nomdoc = doc1.recupererDoc();
+					}
 					
-					 nomdoc = doc1.recupererDoc();
-					
-					 fluxEntree = new BufferedReader(new FileReader(chemin+nomdoc));
+					 fluxEntree = new BufferedReader(new FileReader(chemin+nomdoc.get(1)));
 					 /* Lecture d'une ligne */
 					 String ligneLue = fluxEntree.readLine();
 					 ArrayList<String> listContent= new ArrayList<>();
@@ -146,10 +138,32 @@ public class DocumentS extends HttpServlet {
 						listContent.add(ligneLue);
 						ligneLue = fluxEntree.readLine();
 					}
+					request.setAttribute("commentaires", doc1.getCommentaireDoc());
+					request.setAttribute("idd", nomdoc.get(0));
+					request.setAttribute("nomdoc", nomdoc.get(1));
 					request.setAttribute("ContentFichier", listContent);
+					// verification si utilisateur est proprieteur du document.
+					request.setAttribute("userid", request.getParameter("userid"));
 					
 				}
-				
+				/**
+				 * modification de document
+				 */
+				if(request.getParameter("iddoc")!=null && request.getParameter("modif")!=null){
+					
+						user.setId((int)session.getAttribute("id"));
+						request.setAttribute("amis", user.listAmis());
+						if(user.autorisationModif(Integer.parseInt(request.getParameter("iddoc")))){
+							
+							request.setAttribute("docmodif", request.getParameter("iddoc"));
+							this.getServletContext().getRequestDispatcher("/WEB-INF/modif.jsp").forward(request, response);
+							System.out.println("passage  ok");
+						}
+						else{
+							request.setAttribute("docmodifMessage", " <h3>Vous n'avez pas droit de modifier ce fichier.</br> Veuillez de contacter le proprietaire.</h3>");
+							this.getServletContext().getRequestDispatcher("/WEB-INF/modif.jsp").forward(request, response);
+						}
+				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -158,7 +172,7 @@ public class DocumentS extends HttpServlet {
 				e.printStackTrace();
 			}
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/utilisateur.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/document.jsp").forward(request, response);
 	}
 
 	/**

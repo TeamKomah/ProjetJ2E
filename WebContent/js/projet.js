@@ -33,7 +33,7 @@ function rechercheAmis(text){
 
 function retour(xml){
 	//alert("entree");
-	//var xmlDoc = xml.responseXML;
+	
 	var ul = document.getElementById('list_rech');
 	ul.innerHTML="";
 	var rac = xml.documentElement;
@@ -45,10 +45,15 @@ function retour(xml){
 		var prenom =  ami.getElementsByTagName("prenom")[0].childNodes[0].nodeValue;
 		var li = document.createElement('li');
 		var lien = document.createElement('a');
-		lien.setAttribute('href',"Profile?id="+id);
+		lien.setAttribute('href',"Profile?prof="+id);
 		li.setAttribute('class','amis_tr');
 		lien.textContent = nom+" "+prenom;
 		li.appendChild(lien);
+		var ajoute = document.createElement('a');
+		ajoute.setAttribute('href',"Profile?ajouter="+id+"&&prof="+id);
+		ajoute.setAttribute('class','Ajouter_Ami');
+		ajoute.textContent= "  Ajouter";
+		li.appendChild(ajoute);
 		ul.appendChild(li);
 		
 	}

@@ -1,11 +1,21 @@
 package model;
 
 import java.awt.List;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.lang.model.element.Element;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 
 public class Utilisateur {
@@ -39,6 +49,7 @@ public class Utilisateur {
 			this.id = id;
 			this.nom = res.getString(2);
 			this.prenom = res.getString(3);
+			this.pseudo = res.getString(5);
 		}
 	}
 	
@@ -204,17 +215,50 @@ public class Utilisateur {
 	 * @return
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 * @throws SAXException 
 	 */
 	
 		//methode qui recupere toute la conversation avec l'uitilisateur idAmi
-		public ArrayList<Message> getCommunication(int idAmi) throws SQLException, ClassNotFoundException{
+		public ArrayList<Message> getCommunication(int idAmi) throws SQLException, ClassNotFoundException, ParserConfigurationException, SAXException, IOException{
 			ArrayList<Message> com = new ArrayList<Message>();
 		
 			ResultSet res = connect.Query("SELECT * FROM message "
 													+ " WHERE Emeteur_ID IN ("+this.id+","+idAmi+") "
 													+ " AND Recepteur_ID IN ("+this.id+","+idAmi+") "
 													+ " ORDER BY DateMess ASC");
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder parser = factory.newDocumentBuilder();
+			org.w3c.dom.Document documentM =  parser.parse(new File("C:/Users/snianfo/Documents/Java_tp_et_projet/ProjetJavaEE/src/model/messages.xml"));
+				
+			
+			org.w3c.dom.Element listemessage = documentM.createElement("messages");
+			documentM.appendChild(listemessage);
 			while(res.next()){
+				org.w3c.dom.Element message = documentM.createElement("message");
+				
+				org.w3c.dom.Element id =  documentM.createElement("id");
+				org.w3c.dom.Element contenu = documentM.createElement("SonContenu");
+				org.w3c.dom.Element date = documentM.createElement("date");
+				org.w3c.dom.Element idEx= documentM.createElement("idExp");
+				org.w3c.dom.Element idRec = documentM.createElement("idRec");
+				
+				id.appendChild(documentM.createTextNode(""+res.getInt(1)));
+				idEx.appendChild(documentM.createTextNode(""+res.getInt(2)));
+				idRec.appendChild(documentM.createTextNode(""+res.getInt(3)));
+				date.appendChild(documentM.createTextNode(""+res.getDate(4)));
+				contenu.appendChild(documentM.createTextNode(res.getString(5)));
+				
+				message.appendChild(id);
+				message.appendChild(contenu);
+				message.appendChild(date);
+				message.appendChild(idEx);
+				message.appendChild(idRec);
+				listemessage.appendChild(message);
+				
+				//System.out.println(contenu.getTextContent());
+				//System.out.println(listemessage.getTextContent());
 				int idM = res.getInt(1);
 				int idE = res.getInt(2);
 				int idR = res.getInt(3);

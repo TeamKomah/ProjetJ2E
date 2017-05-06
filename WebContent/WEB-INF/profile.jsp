@@ -42,8 +42,6 @@
 					</h3>
 					Bienvenue sur ton site prefere
 					<ul class="menuOpt">
-						<li><a  href="Connection?ajAmi=1&&profdoc=${profid }">+ ajouter un ami</a></li>
-						<li><a href="Connection?aj=1&&profdoc=${profid }"> + ajoutez un Document</a></li>
 						<li><a href="Profile?doc=1&&profdoc=${profid }">Mes Documents</a></li>
 						<li><a href="Profile?docsparta=1&&profdoc=${profid }">Documents partagés avec moi</a></li>
 						
@@ -98,15 +96,10 @@
 					
 					
 					
-					<c:if test="${param.aj != null }">
+					<c:if test="${amiAvec != null }">
 						
-						<h2>Ajoutez un nouveau document</h2>
-						<form action="DocumentS" method="post" enctype="multipart/form-data">
-							<%request.setAttribute("form1", 1); %>
-							<input type="text" name="descrip" id="descrip"/>
-							<input type="file" name="fichier" id="fichier"/>
-							<input type="submit" value="Envoyer">
-						</form>
+						<h4>{amiAvec} ${profnom} ${profprenom}</h4>
+						
 						
 					</c:if>
 			

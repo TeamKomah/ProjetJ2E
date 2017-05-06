@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.Document;
 import model.Utilisateur;
@@ -32,24 +33,31 @@ public class Profile extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	try {
+	try {	
+			HttpSession session = request.getSession();
+			Utilisateur us = new Utilisateur();
+			Document doc = new Document();
 			if(request.getParameter("prof")!=null){
-				
-				Utilisateur us = new Utilisateur();
-				Document doc = new Document();
-				us.getUtilisateur(Integer.parseInt(request.getParameter("prof")));
-				request.setAttribute("profnom", us.getNom());
-				request.setAttribute("profprenom", us.getPrenom());
-				request.setAttribute("profid", us.getId());
-				request.setAttribute("amis", us.listAmis());
-				request.setAttribute("mesdocs",us.mesDocuments(us));	
-				request.setAttribute("docspartager",us.listDocPartager(us));
+			us.getUtilisateur(Integer.parseInt(request.getParameter("prof")));
+			request.setAttribute("profnom", us.getNom());
+			request.setAttribute("profprenom", us.getPrenom());
+			request.setAttribute("profid", us.getId());
+			request.setAttribute("amis", us.listAmis());
+			request.setAttribute("mesdocs",us.mesDocuments(us));	
+			request.setAttribute("docspartager",us.listDocPartager(us));
 			}
+			
+			if(request.getParameter("ajouter")!=null){
+				Utilisateur ami = new Utilisateur();
+				ami.setId((int)session.getAttribute("id"));
+				ami.ajouterAmi(us);
+				request.setAttribute("amiAvec", "Vous etes ami avec");
+				
+			}
+		
 			
 			if(request.getParameter("profdoc")!=null){
 				
-				Utilisateur us = new Utilisateur();
-				Document doc = new Document();
 				us.getUtilisateur(Integer.parseInt(request.getParameter("profdoc")));
 				request.setAttribute("profnom", us.getNom());
 				request.setAttribute("profprenom", us.getPrenom());

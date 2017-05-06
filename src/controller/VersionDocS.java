@@ -46,6 +46,9 @@ public class VersionDocS extends HttpServlet {
 				request.setAttribute("listdocsize", doc1.versions(Integer.parseInt(request.getParameter("iddoc")), user).size());
 				request.setAttribute("lesVersions", doc1.versions(Integer.parseInt(request.getParameter("iddoc")), user));
 			}
+			
+			
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -68,12 +71,13 @@ public class VersionDocS extends HttpServlet {
 		try {
 			doc1 = new Document();
 			user = new Utilisateur();
-			if(request.getParameter("newversion")!=null){
+			//if(request.getParameter("newversion")!=null){
 				user.setId(id);
 				user.setNom(nom);
 				user.setPrenom(prenom);
-				int docid = Integer.parseInt((String) session.getAttribute("docModif"));
-				//String nomdoc = (String) request.getAttribute("newversion");
+				
+				int docid = Integer.parseInt(request.getParameter("iddoc"));
+				System.out.println("nouveau doc");
 				
 				doc1.setId(docid);
 				doc1.trouverdoc();
@@ -91,7 +95,7 @@ public class VersionDocS extends HttpServlet {
 				 
 				System.out.println("nouvelle version "+request.getParameter("newversion"));
 				
-			}
+			//}
 			
 			
 			
