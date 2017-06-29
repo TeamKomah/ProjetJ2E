@@ -82,11 +82,11 @@
 							<ul class="button">
 									
 										<li><a href="VersionDocS?iddoc=${param.iddoc}&&version=1&&modif=0">Les versions</a></li>
-										<li><a href="DocumentS?iddoc=${param.iddoc}&&modif=1">Modifier le fichier</a></li>
-										<li><a href="DocumentS?iddoc=${idd }&affiche=1&userid=${id}">Apercu du document</a></li>
+										<li><a href="Version?iddoc=${param.iddoc}&&modif=1">Modifier le fichier</a></li>
+										<li><a href="Version?iddoc=${idd }&affiche=1&userid=${id}">Apercu du document</a></li>
 										<c:if test="${userid != null }">
 										
-										<li><a href="DocumentS?iddoc=${param.iddoc}&&suppri=1">Supprimer le fichier</a></li>
+										<li><a href="Version?iddoc=${param.iddoc}&&suppri=1">Supprimer le fichier</a></li>
 									
 										<li class="deroule"><a href="DocumentS?iddoc=${param.iddoc}&&acces=1" >rendre accessible</a>
 											
@@ -101,7 +101,7 @@
 											</ul>
 										</li>
 									</c:if>
-										<li id="Telecharger"><a href="Telechargement?iddoc=${param.iddoc}&userid=${id}">Télécharger le document</a></li>
+										<li id="Telecharger"><a href="Telechargement?iddoc=${param.iddoc}&userid=${id}&iddocVersio=0">Télécharger le document</a></li>
 								</ul>
 								</div>
 								</div>

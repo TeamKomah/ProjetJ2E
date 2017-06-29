@@ -16,21 +16,21 @@
 </head>
 <body>
 <div class="tete">
-			<div class="titre">
-				<h1>HELP ME</h1>
-			</div>
-			<div class="formRech">
-				<ul>
-					<form action="Profile?user=${id}&&ajAmi=1" method="post">
-						<input type="text" name="recherche" placeholder="nom ou pseudo" id="rech">
-						<input type="submit" value="Recherche">
-					</form>
-					<ul id="list_rech">
-								
-					</ul>
-				</ul>
-			</div>	
-		</div>
+	<div class="titre">
+		<h1>HELP ME</h1>
+	</div>
+	<div class="formRech">
+		<ul>
+			<form action="Profile?user=${id}&&ajAmi=1" method="post">
+					<input type="text" name="recherche" placeholder="nom ou pseudo" id="rech">
+					<input type="submit" value="Recherche">
+				</form>
+				<ul id="list_rech">
+							
+			</ul>
+		</ul>
+	</div>	
+</div>
 		<h4><a href="Connection">Accueil</a> <a href="Index?decon=1">Deconnexion</a></h4>
 		<div class="block">
 			<div class = "menu">
@@ -49,7 +49,7 @@
 				<br>
 
     	
-<ul>
+<ul id="mes_amis" data-user="${id}">
 	<h2>Amis</h2>
 	<c:forEach var="am" items="${ amis }">
 	<li class="amis">
@@ -100,5 +100,6 @@
 </div>
 </div>
 <script type="text/javascript" src="js/profil.js"></script>
+<script type="text/javascript"  src="js/message.js"></script> 
 </body>
 </html>

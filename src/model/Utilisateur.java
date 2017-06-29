@@ -441,6 +441,15 @@ public class Utilisateur {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}	
+	}
+
+	public ConnectionBD getConnect() {
+		return connect;
+	}
+
+	public void setConnect(ConnectionBD connect) {
+		this.connect = connect;
+	}
+	
 	
 }

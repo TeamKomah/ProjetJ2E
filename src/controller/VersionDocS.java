@@ -43,7 +43,7 @@ public class VersionDocS extends HttpServlet {
 				HttpSession session= request.getSession();
 				user.setId((int)session.getAttribute("id"));
 				request.setAttribute("amis", user.listAmis());
-				request.setAttribute("listdocsize", doc1.versions(Integer.parseInt(request.getParameter("iddoc")), user).size());
+				request.setAttribute("nonLu", user.getMessageNonLu());
 				request.setAttribute("lesVersions", doc1.versions(Integer.parseInt(request.getParameter("iddoc")), user));
 			}
 			
@@ -81,18 +81,23 @@ public class VersionDocS extends HttpServlet {
 				
 				doc1.setId(docid);
 				doc1.trouverdoc();
+				String nomFichier = doc1.getNom();
+				nomFichier = nomFichier.substring( nomFichier.lastIndexOf( '/' ) + 1 ).substring( nomFichier.lastIndexOf( '\\' ) + 1 );
+		        String type = nomFichier.substring(nomFichier.lastIndexOf('.'), nomFichier.length());
+		        String newNom = nomFichier.substring(0, nomFichier.lastIndexOf('.'));
+		        	int Nb = doc1.docExiste()+1;
+		        	newNom = newNom+""+Nb+doc1.nbDocV()+"V";
 				
-				Document doc = new Document(0,doc1.getNom()+".txt",user,0,new Date(0000));
-				File file = new File(chemin+doc1.getNom()+".txt");
+				Document doc = new Document(0,newNom+type,user,0,new Date(0000));
+				File file = new File(chemin+newNom+type);
 				file.createNewFile();
 				FileWriter ff = new FileWriter(file);
 				ff.write((String)request.getParameter("newversion"));
 				ff.write("\n");
 				ff.close();
-				//doc.ajouterDoc();
 				
 				doc.nouveauVersion(doc1.getId(),user.getId());
-				 
+				doc.accesDoc(id,doc.nbDocV());
 				System.out.println("nouvelle version "+request.getParameter("newversion"));
 				
 			//}

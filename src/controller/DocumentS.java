@@ -90,46 +90,69 @@ public class DocumentS extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.setContentType("html");
+		
+		response.setContentType("text/plain");
+		String chemin = this.getServletConfig().getInitParameter("chemin");
 		try {
 			HttpSession session= request.getSession();
 			Document doc1 = new Document();
 			Utilisateur user = new Utilisateur();
+			if(request.getParameter("iddoc") != null ){
+				 int idd = Integer.parseInt(request.getParameter("iddoc"));
+				 doc1.setId(idd);
 				
-				
-				/**
-				 * suppression du document
-				 */
-				if(request.getParameter("iddoc")!=null && request.getParameter("suppri")!=null){
-				
-					doc1.supprimer(Integer.parseInt(request.getParameter("iddoc")));
-					
-					user.setId((int)session.getAttribute("id"));
-					request.setAttribute("amis", user.listAmis());
-					String S = "Le fichier a été supprimé";
-					request.setAttribute("suppression", S);
-					
+				if((String)request.getParameter("iddocVersio")!= "0" && request.getParameter("iddocVersio")!=null){
+					System.out.println("idddd "+ request.getParameter("iddocVersio"));
+					doc1.recupererDocVersio();
+					request.setAttribute("iddocVersion", "1");
 				}
+				else{
+					doc1.recupererDoc();
+				}
+			}
+				
+			
+			/**
+			 * suppression du document
+			 */
+			if(request.getParameter("iddoc")!=null && request.getParameter("suppri")!=null){
+				if(request.getParameter("iddocVersio") != null){
+					doc1.supprimerVersion(Integer.parseInt(request.getParameter("iddoc")));
+				}
+					
+				else 
+					doc1.supprimer(Integer.parseInt(request.getParameter("iddoc")));
+				
+				
+				File fic = new File("C:"+chemin+doc1.getNom());
+				if(fic.exists()){
+					System.out.println("le fichier existe");
+					System.out.println(fic.getName());
+				}
+				
+				if(fic.delete()){
+					System.out.println("suppression ok");
+				}
+				user.setId((int)session.getAttribute("id"));
+				request.setAttribute("amis", user.listAmis());
+				String S = "Le fichier a été supprimé";
+				request.setAttribute("suppression", S);
+				
+				
+			}
+			
+				
 				/**
 				 * recuperation du nom du fichier dans bd et son contenu.
 				 */
 				
 				BufferedReader fluxEntree;
-				if(request.getParameter("iddoc") != null){
+				if(request.getParameter("iddoc") != null ){
 					user.setId((int)session.getAttribute("id"));
 					request.setAttribute("amis", user.listAmis());
-					String chemin = this.getServletConfig().getInitParameter("chemin");
-					 int idd = Integer.parseInt(request.getParameter("iddoc"));
-					 doc1.setId(idd);
-					ArrayList<String> nomdoc;
-					if(request.getParameter("iddocVersio") != null){
-						nomdoc = doc1.recupererDocVersio();
-					}
-					else{
-						nomdoc = doc1.recupererDoc();
-					}
-					
-					 fluxEntree = new BufferedReader(new FileReader(chemin+nomdoc.get(1)));
+					request.setAttribute("nonLu", user.getMessageNonLu());
+					 
+					 fluxEntree = new BufferedReader(new FileReader(chemin+doc1.getNom()));
 					 /* Lecture d'une ligne */
 					 String ligneLue = fluxEntree.readLine();
 					 ArrayList<String> listContent= new ArrayList<>();
@@ -139,13 +162,23 @@ public class DocumentS extends HttpServlet {
 						ligneLue = fluxEntree.readLine();
 					}
 					request.setAttribute("commentaires", doc1.getCommentaireDoc());
-					request.setAttribute("idd", nomdoc.get(0));
-					request.setAttribute("nomdoc", nomdoc.get(1));
+					request.setAttribute("idd", doc1.getId());
+					request.setAttribute("nomdoc", doc1.getNom());
+					request.setAttribute("description",doc1.getDescript());
 					request.setAttribute("ContentFichier", listContent);
 					// verification si utilisateur est proprieteur du document.
 					request.setAttribute("userid", request.getParameter("userid"));
+					if(request.getParameter("getContent")!=null){
+						for(int i = 0; i<listContent.size(); i++){
+							response.getOutputStream().print(listContent.get(i)+"\n");
+						}
+						response.getOutputStream().flush();
+						response.getOutputStream().close();
+					}
+					fluxEntree.close();
 					
 				}
+				
 				/**
 				 * modification de document
 				 */
@@ -164,15 +197,20 @@ public class DocumentS extends HttpServlet {
 							this.getServletContext().getRequestDispatcher("/WEB-INF/modif.jsp").forward(request, response);
 						}
 				}
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+		if(request.getParameter("getContent")==null)
+			this.getServletContext().getRequestDispatcher("/WEB-INF/document.jsp").forward(request, response);
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/document.jsp").forward(request, response);
 	}
 
 	/**
@@ -193,25 +231,36 @@ public class DocumentS extends HttpServlet {
 				user = new Utilisateur();
 					
 					Part part = request.getPart( "fichier" );
+					
 					String nomFichier = getNomFichier( part );
 					
 					if ( nomFichier != null && !nomFichier.isEmpty() ) {
 						System.out.println("fichier detecte");
 					        String nomChamp = part.getName();
+					        System.out.println("document");
+					       
+					        System.out.println((nomFichier.substring(nomFichier.lastIndexOf('.'), nomFichier.length())));
 					        nomFichier = nomFichier.substring( nomFichier.lastIndexOf( '/' ) + 1 ).substring( nomFichier.lastIndexOf( '\\' ) + 1 );
-					        ecrireFichier( part, nomFichier, chemin );
-					     
+					        String type = nomFichier.substring(nomFichier.lastIndexOf('.'), nomFichier.length());
+					        String newNom = nomFichier.substring(0, nomFichier.lastIndexOf('.'));
+					        	int Nb = doc1.docExiste()+1;
+					        	newNom = newNom+""+Nb;
 								user.setId(id);
 								user.setNom(nom);
 								user.setPrenom(prenom);
-								 Document doc = new Document(doc1.nbDoc, nomFichier,user,0,new Date(0000));
+								 Document doc = new Document(doc1.nbDoc, newNom+type,user,0,new Date(0000));
+								 //ecriture du fichier dans la bd
+								 String descript = request.getParameter("descript");
+								 System.out.println("descrip "+descript);
+								 doc.setDescript(descript);
 								 doc.ajouterDoc();
 								 doc.accesDoc(id,doc.nbDoc());
-								 
+								 //ecriture du fichier le reperetoire des fichier
+								 ecrireFichier( part, newNom+type, chemin );
 						        request.setAttribute( nomChamp, nomFichier );
 						        
 					    }
-				 
+					System.out.println("Client lourd doc");
 			 
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block

@@ -81,16 +81,16 @@
 			li.setAttribute("class","com");
 			
 			lien.setAttribute("href","Profile?id="+idU);
-			lien.textContent = pseudo;
+			lien.textContent = pseudo+" ";
 			
 			span1.setAttribute("class","pseu");
 			span1.appendChild(lien);
 			
 			span2.setAttribute("class","commentaire");
-			span2.textContent = contenu;
+			span2.textContent = ": "+contenu+" ";
 			
 			span3.setAttribute("class","date_com");
-			span3.textContent = date;
+			span3.textContent = " "+date;
 			
 			li.appendChild(span1);
 			li.appendChild(span2);
@@ -101,5 +101,5 @@
 
 	}
 	
-	setInterval(chargerComm,10000);
+	//setInterval(chargerComm,10000);
 })();

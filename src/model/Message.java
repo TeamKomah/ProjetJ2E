@@ -32,7 +32,7 @@ public class Message {
 		int idR = this.destinataire.getId();
 		connect = ConnectionBD.getConnectionBD();
 		PreparedStatement pre = null;
-		pre = (PreparedStatement) connect.getConnect().prepareStatement("INSERT INTO message (Emeteur_ID,Recepteur_ID,DateMess,Contenu_Msg) "+
+		pre = (PreparedStatement) connect.getConnect().prepareStatement("INSERT INTO message (Emeteur_ID,Recepteur_ID,DateMess,Contenu_Msg,vu) "+
 									"VALUES (?,?,NOW(),?,?)");
 		pre.setInt(1,idE);
 		pre.setInt(2,idR);

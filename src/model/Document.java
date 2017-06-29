@@ -12,6 +12,15 @@ public class Document {
 	private String nom;
 	public Utilisateur auteur;
 	public Date dateC;
+	public String descript;
+	public String getDescript() {
+		return descript;
+	}
+
+	public void setDescript(String descript) {
+		this.descript = descript;
+	}
+
 	private ArrayList <Utilisateur> listContributeur = new ArrayList<>();
 	private ArrayList <Commentaire> listComDoc = new ArrayList<>();
 	public int visibilite;
@@ -62,6 +71,13 @@ public class Document {
 			this.auteur = new Utilisateur(res.getInt(3));
 		}
 	}
+	
+	public int docExiste() throws SQLException{
+		ResultSet res = connect.Query("select MAX(Document_ID) from document");
+		res.next();
+		return res.getInt(1);
+	}
+	
 	/**
 	 * methode qui recupere tous les commentaire liés a un document
 	 * @return une lite contenant les commentaire
@@ -117,8 +133,8 @@ public class Document {
 	}
 	
 	public int ajouterDoc() throws SQLException{
-		 return connect.QueryUpdate("INSERT INTO document(Document_Name,Editeur_ID,Type_ID,DatePubli) "
-				+ "VALUES('"+this.nom+"','"+this.auteur.getId()+"','"+this.visibilite+"',NOW())");
+		 return connect.QueryUpdate("INSERT INTO document(Document_Name,Editeur_ID,Type_ID,DatePubli,DescriptionDoc) "
+				+ "VALUES('"+this.nom+"','"+this.auteur.getId()+"','"+this.visibilite+"',NOW(),'"+this.descript+"')");
 	}
 	
 	public int accesDoc(int user, int iddoc ) throws SQLException{
@@ -180,28 +196,40 @@ public class Document {
 		}
 	}
 
-	public ArrayList<String> recupererDoc() throws SQLException{
-		ResultSet res = connect.Query("SELECT Document_ID, Document_Name FROM document WHERE Document_ID='"+this.id+"'");
+	public void recupererDoc() throws SQLException{
+		ResultSet res = connect.Query("SELECT Document_ID, Document_Name,DescriptionDoc FROM document WHERE Document_ID='"+this.id+"'");
 		res.next();
-		ArrayList doc = new ArrayList();
-		doc.add(res.getInt(1));
-		doc.add(res.getString("Document_Name"));
-		return doc;
+		
+		this.setId(res.getInt(1));
+		this.setNom(res.getString("Document_Name"));
+		this.setDescript(res.getString(3));
 	}
 	
-	
-	public ArrayList<String> recupererDocVersio() throws SQLException{
-		ResultSet res = connect.Query("SELECT VersionDoc_ID, VersionDoc_Name FROM versiondoc WHERE VersionDoc_ID='"+this.id+"'");
+	public void recupererDoc1() throws SQLException{
+		ResultSet res = connect.Query("SELECT Document_ID, Document_Name,DescriptionDoc FROM document WHERE Document_ID='"+this.id+"'");
 		res.next();
-		ArrayList doc = new ArrayList();
-		doc.add(res.getInt("VersionDoc_ID"));
-		doc.add(res.getString("VersionDoc_Name"));
-		return doc;
+		
+		this.setId(res.getInt(1));
+		this.setNom(res.getString("Document_Name"));
+		//doc.add(res.getString(3));
+	}
+	
+	public void recupererDocVersio() throws SQLException{
+		ResultSet res = connect.Query("SELECT VersionDoc_ID, VersionDoc_Name, Description FROM versiondoc WHERE VersionDoc_ID='"+this.id+"'");
+		res.next();
+		
+		this.setId(res.getInt("VersionDoc_ID"));
+		this.setNom(res.getString("VersionDoc_Name"));
+		this.setDescript(res.getString("Description"));
+		
 	}
 	
 	
 	public int supprimer(int id) throws SQLException{
 		return connect.QueryUpdate("delete from document where Document_ID = '"+id+"'");
+	}
+	public int supprimerVersion(int id) throws SQLException{
+		return connect.QueryUpdate("delete from versiondoc where VersionDoc_ID = '"+id+"'");
 	}
 	
 	public ArrayList<Document> versions(int iddoc, Utilisateur user) throws SQLException, ClassNotFoundException{
@@ -217,6 +245,12 @@ public class Document {
 	
 	public int nbDoc() throws SQLException{
 		ResultSet res = connect.Query("select MAX(Document_ID) from document ");
+		res.next();
+		return res.getInt(1);
+	}
+	
+	public int nbDocV() throws SQLException{
+		ResultSet res = connect.Query("select MAX(VersionDoc_ID) from versiondoc ");
 		res.next();
 		return res.getInt(1);
 	}

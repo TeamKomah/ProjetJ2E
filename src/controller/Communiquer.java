@@ -50,9 +50,7 @@ public class Communiquer extends HttpServlet {
 			request.setAttribute("nonLu", exp.getMessageNonLu());
 			request.setAttribute("expediteur", exp);
 			request.setAttribute("recepteur", recep);
-			exp.getCommunication(idR);
-			System.out.println("passage Comminuquer");
-			//request.setAttribute("communication", exp.getCommunication(idR));
+			request.setAttribute("communication", exp.getCommunication(idR));
 			this.getServletContext().getRequestDispatcher("/WEB-INF/communiquer.jsp").forward(request, response);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -28,7 +28,7 @@
       <param-value>/stockjee/</param-value>
     </init-param>
     <multipart-config>
-      <location>c:/stockjee</location>
+      <location>C:/stockjee</location>
       <max-file-size>10485760</max-file-size>
       <max-request-size>52428800</max-request-size>
       <file-size-threshold>1048576</file-size-threshold>
@@ -46,7 +46,7 @@
       <param-value>/stockjee/</param-value>
     </init-param>
     <multipart-config>
-      <location>c:/stockjee</location>
+      <location>C:/stockjee</location>
       <max-file-size>10485760</max-file-size>
       <max-request-size>52428800</max-request-size>
       <file-size-threshold>1048576</file-size-threshold>
@@ -55,5 +55,24 @@
   <servlet-mapping>
     <servlet-name>VersionDocS</servlet-name>
     <url-pattern>/VersionDocS</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Version</servlet-name>
+    <servlet-class>controller.Version</servlet-class>
+    <init-param>
+      <param-name>chemin</param-name>
+      <param-value>/stockjee/</param-value>
+    </init-param>
+    <multipart-config>
+      <location>C:/stockjee</location>
+      <max-file-size>10485760</max-file-size>
+      <max-request-size>52428800</max-request-size>
+      <file-size-threshold>1048576</file-size-threshold>
+    </multipart-config>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Version</servlet-name>
+    <url-pattern>/Version</url-pattern>
   </servlet-mapping>
 </web-app>

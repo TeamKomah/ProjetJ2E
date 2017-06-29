@@ -38,7 +38,7 @@ public class Index extends HttpServlet {
 					session.setAttribute("nom", null);
 					session.setAttribute("prenom", null);
 					session.setAttribute("id", null);
-					
+					//user.getConnect().close();
 				this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 			}
 		} catch (ClassNotFoundException | SQLException e) {

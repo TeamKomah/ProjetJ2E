@@ -10,11 +10,13 @@
 </head>
 <body>
 <div class="tete">
-<h1>HELP ME</h1>
+	<div class="titre">
+		<h1>HELP ME</h1>
+	</div>
 </div>
 <div class="right box">
-<table>
-<div id="formConnect">
+<table  class="formConnect">
+
 	<form action="Connection" method="post" class="form">
 		<tr>
 		<td> Pseudo: </td>
@@ -26,11 +28,11 @@
 		</tr>
 		<tr><td></td><td><input type="submit" value="Connection"></td></tr> 
 	</form>
-</div>
+
 </table>
 <h4>Si vous n'avez pas de compte inscrivez-vous.</h4>
-<table>
-<div id="formInscrip">
+<table  class="formConnect">
+
 	<form action="Inscription" method="post" >
 		<tr>
 		<td>Prenom: </td>
@@ -69,7 +71,6 @@
 		<td><input type="submit" value="Inscription"></td>
 		</tr>
 	</form>
-</div>
 </table>
 </div>
 </body>

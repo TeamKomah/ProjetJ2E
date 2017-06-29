@@ -83,35 +83,6 @@
 
 	}
 	
-	function chargerNouveauMessage(){
-		var url = "ChargerNouveauMessage?id="+escape(exp);
-		var xhr = new XMLHttpRequest();
-		xhr.open('GET',url,true);
-		xhr.onreadystatechange = function(){
-			if(xhr.readyState == 4 && xhr.status == 200){
-				nouvMes(xhr.responseXML);
-			}
-		}
-		xhr.send(null);
-	}
-	
-	function nouvMes(xml){
-		var rac = xml.documentElement;
-		for (var i = 0; i < rac.childNodes.length; i++) {
-			var msg = rac.childNodes[i];
-			var amiID = msg.getElementsByTagName("ami")[0].childNodes[0].nodeValue;
-			var nbr = msg.getElementsByTagName("nbr")[0].childNodes[0].nodeValue;
-			for (var j = 0; j < ami.length; j++) {
-				var id = ami[j].getAttribute("data-id");
-				if (id == amiID) {
-					ami[j].innerHTML="";
-					ami[j].textContent = nbr;
-				}
-			}
-		}
-	}
-	
-	setInterval(chargerNouveauMessage, 5000);
 	setInterval(chargerConversation, 5000);
 	
 })();

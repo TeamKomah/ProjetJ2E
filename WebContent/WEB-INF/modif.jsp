@@ -48,7 +48,7 @@
 				<br>
 				
 				    	
-				<ul>
+				<ul id="mes_amis" data-user="${id}">
 					<h2>Amis</h2>
 					<c:forEach var="am" items="${ amis }">
 					<li class="amis">
@@ -94,7 +94,7 @@ ${docmodifMessage}
 
 <script type="text/javascript"  src="js/projet.js"></script> 
 <script type="text/javascript"  src="js/commentaire.js"></script> 
-
+<script type="text/javascript"  src="js/message.js"></script> 
 
 </body>
 </html>

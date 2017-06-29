@@ -55,13 +55,20 @@
 						<li class="amis">
 							<div>
 								<a href="#"> ${ am.nom } ${am.prenom }</a>
+								<span class="nonLu" data-id="${am.id}">
+									<c:forEach var="nbr" items="${nonLu}">
+										<c:if test="${nbr[0] == am.id}">
+											${nbr[1]}
+										</c:if>
+									</c:forEach>
+								</span>
 							</div>
 							
-							<div class="hide">
+						<!-- 	<div class="hide">
 								<span class="bout-profil"> <a href="Profile?prof=${am.id}"> Voir Profil </a></span>
 								<span class="bout-profil"><a href="Communiquer?id=${am.id}"> Communiquer </a></span>
 								<span class="bout-profil"><a href="Communiquer?id=${am.id}"> Ajouter </a></span>
-							</div>
+							</div>  -->
 						</li>
 						</c:forEach>
 					</ul>
@@ -98,7 +105,7 @@
 					
 					<c:if test="${amiAvec != null }">
 						
-						<h4>{amiAvec} ${profnom} ${profprenom}</h4>
+						<h4> Vous etes maintenant ami avec ${profnom} ${profprenom}</h4>
 						
 						
 					</c:if>
@@ -179,5 +186,6 @@
 <c:if test="${id == null }">
 <h3>Vous etes deconnecte, reconnectez-vous pour pouvoir continuer <a href="Index">Connection</a></h3>
 </c:if>
+<script type="text/javascript"  src="js/message.js"></script> 
 </body>
 </html>

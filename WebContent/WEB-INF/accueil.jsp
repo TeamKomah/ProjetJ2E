@@ -38,7 +38,6 @@
 				</h3>
 				Bienvenue sur ton site prefere
 				<ul class="menuOpt">
-					<li><a  href="Connection?ajAmi=1">+ ajouter un ami</a></li>
 					<li><a href="Connection?aj=1"> + ajoutez un Document</a></li>
 					<li><a href="Connection?doc=1">Mes Documents</a></li>
 					<li><a href="Connection?docsparta=1">Documents partagés avec moi</a></li>
@@ -47,7 +46,7 @@
 				<br>
 				
 				    	
-				<ul>
+				<ul id="mes_amis" data-user="${id}">
 					<h2>Amis</h2>
 					<c:forEach var="am" items="${ amis }">
 					<li class="amis">
@@ -71,7 +70,8 @@
 				</ul>
 		</div>		
 		<div class="block-col2">
-			<ul>
+			
+			<ul class="doc">
 				
 				<c:forEach var="d" items="${Documents }">
 					<li>
@@ -89,5 +89,6 @@
 </div>
 </c:if>
 </body>
-<script type="text/javascript"  src="js/projet.js"></script> 
+<script type="text/javascript"  src="js/projet.js"></script>
+<script type="text/javascript"  src="js/message.js"></script> 
 </html>
